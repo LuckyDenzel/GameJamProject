@@ -4,13 +4,13 @@ using UnityEngine;
 public class ScoreUI : MonoBehaviour {
 
 
-    [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI scoreTextReference;
 
     private void Start() {
         GameManager.Instance.OnScoreChanged += GameManager_OnScoreChanged;
 
         // Set the starting score to begin at zero
-        scoreText.text = "0";
+        scoreTextReference.text = "0";
 
         Show();
     }
@@ -20,9 +20,9 @@ public class ScoreUI : MonoBehaviour {
     }
 
     public void UpdateScoreText(int currentScore) {
-        scoreText.text = string.Empty;
+        scoreTextReference.text = string.Empty;
 
-        scoreText.text = currentScore.ToString();
+        scoreTextReference.text = currentScore.ToString();
     }
 
     private void Show() {
