@@ -24,7 +24,6 @@ public class Player_Movement : MonoBehaviour {
 
     private void FixedUpdate() {
         Move();
-
         ClampVelocity();
     }
 
