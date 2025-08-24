@@ -213,7 +213,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerRb: {fileID: 5498710912667911149}
-  moveSpeed: 20
+  moveSpeed: 15
   jumpForce: 1
   groundLayerMask:
     serializedVersion: 2

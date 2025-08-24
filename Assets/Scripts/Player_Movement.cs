@@ -12,9 +12,24 @@ public class Player_Movement : MonoBehaviour {
 
     private float playerHeight = 1f;
 
+    private float knockBackTimer;
+    private float knockBackDuration = 0.2f;
+
     private bool grounded;
+    private bool isBeingKnockedBack = false;
 
     private void Update() {
+        if (isBeingKnockedBack) {
+            knockBackTimer -= Time.deltaTime;
+
+            if (knockBackTimer <= 0f) {
+                isBeingKnockedBack = false;
+            }
+
+            // Disable jumping until the knockback is over
+            return;
+        }
+
         if (Input.GetKey(KeyCode.Space)) {
             Jump();
         }
@@ -23,8 +38,10 @@ public class Player_Movement : MonoBehaviour {
     }
 
     private void FixedUpdate() {
-        Move();
-        ClampVelocity();
+        if (!isBeingKnockedBack) {
+            Move();
+            ClampVelocity();
+        }
     }
 
     public bool IsGrounded() {
@@ -52,6 +69,11 @@ public class Player_Movement : MonoBehaviour {
             Vector2 jumpForceDirection = new Vector2(0, jumpForce);
             playerRb.AddForce(jumpForceDirection, ForceMode2D.Impulse);
         }
+    }
+
+    public void ApplyKnockbackToPlayer() {
+        isBeingKnockedBack = true;
+        knockBackTimer = knockBackDuration;
     }
 
     private void ClampVelocity() {

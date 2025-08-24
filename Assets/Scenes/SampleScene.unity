@@ -1225,6 +1225,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyRb: {fileID: 1215069174}
   moveSpeed: 15
+  minDistanceFromPlayerBeforeMove: 2
+  playerCollisionForceAmount: 20
 --- !u!50 &1215069174
 Rigidbody2D:
   serializedVersion: 5
