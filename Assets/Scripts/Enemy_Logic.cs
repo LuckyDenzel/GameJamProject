@@ -62,10 +62,10 @@ public class Enemy_Logic : MonoBehaviour {
     }
 
     private void MoveToPlayer() {
-        // Calculate the direction of where the player is.
-        Vector2 forceDirection = (currentPlayerPosition - (Vector2)transform.position).normalized * moveSpeed;
+        // Calculate the direction of where the player is with Mathf.Sign which returns 0, -, or +.
+        float forceDirection = Mathf.Sign(currentPlayerPosition.x - transform.position.x) * moveSpeed;
 
-        enemyRb.AddForce(forceDirection, ForceMode2D.Force);
+        enemyRb.AddForceX(forceDirection, ForceMode2D.Force);
     }
     
     private void DealDamageToPlayer(Player_Health playerHealthScript) {
