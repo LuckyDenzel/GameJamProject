@@ -8,14 +8,25 @@ public class Enemy_Logic : MonoBehaviour {
 
     [SerializeField] private float moveSpeed = 2f;
 
-    [Tooltip("The minimum distance the enemy needs to be from the player to be able to move closer to the player")]
+    [Tooltip("The minimum distance the enemy needs to be from the player to be able to move closer to the player.")]
     [SerializeField] private float minDistanceFromPlayerBeforeMove = 2f;
 
+    [Header("Player related")]
+    [Tooltip("The force of the knockback the enemy deals to the player on collision.")]
     [SerializeField] private float playerCollisionForceAmount = 20f;
+
+    [Tooltip("The damage the enemy deals to the player at the beginning of the run (Later in run gets heavier).")]
+    [SerializeField] private int startDamage = 10;
 
     private Vector2 currentPlayerPosition;
 
     private float playerPositionCheckTimer = 0.2f;
+    private int currentDamageAmount;
+
+
+    private void Start() {
+        currentDamageAmount = startDamage;
+    }
 
     private void Update() {
         playerPositionCheckTimer -= Time.deltaTime;
@@ -33,19 +44,14 @@ public class Enemy_Logic : MonoBehaviour {
         ClampVelocity();
     }
 
-    private void MoveToPlayer() {
-        // Calculate the direction of where the player is.
-        Vector2 forceDirection = (currentPlayerPosition - (Vector2)transform.position).normalized * moveSpeed;
-
-        enemyRb.AddForce(forceDirection, ForceMode2D.Force);
-    }
-
     private void OnCollisionEnter2D(Collision2D collision) {
         // Add a bounce back force to the player when the enemy hits the player
         if (collision.transform.CompareTag(Player_Logic.PLAYER_TAG)) {
-            // Get the player movement component to call the ApplyKnockbackToPlayer method
-            Player_Movement playerMovement = collision.transform.GetComponent<Player_Movement>();
-            playerMovement.ApplyKnockbackToPlayer();
+            // Call the ApplyKnockbackToPlayer method on the player movement class
+            Player_Logic.PlayerMovementInstance.ApplyKnockbackToPlayer();
+
+            // Deal damage to the player
+            DealDamageToPlayer(Player_Logic.PlayerHealthInstance);
 
             // Calculate the force direction (pushing the player away from the enemy
             Vector2 forceDirection = (transform.position - collision.transform.position).normalized * playerCollisionForceAmount;
@@ -53,6 +59,17 @@ public class Enemy_Logic : MonoBehaviour {
             // Apply the calculated force direction to the rigidbody of the player
             collision.transform.GetComponent<Rigidbody2D>().AddForce(-forceDirection, ForceMode2D.Impulse);
         }
+    }
+
+    private void MoveToPlayer() {
+        // Calculate the direction of where the player is.
+        Vector2 forceDirection = (currentPlayerPosition - (Vector2)transform.position).normalized * moveSpeed;
+
+        enemyRb.AddForce(forceDirection, ForceMode2D.Force);
+    }
+    
+    private void DealDamageToPlayer(Player_Health playerHealthScript) {
+        playerHealthScript.DealDamage(currentDamageAmount);
     }
 
     private void ClampVelocity() {

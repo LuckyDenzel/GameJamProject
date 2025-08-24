@@ -6,12 +6,15 @@ public class Player_Logic : MonoBehaviour {
 
     public static Player_Logic Instance { get; private set; }
     public static Player_Health PlayerHealthInstance { get; private set; }
+    public static Player_Movement PlayerMovementInstance { get; private set; }
 
     [SerializeField] private Player_Health playerHealthReference;
+    [SerializeField] private Player_Movement playerMovementReference;
 
     private void Awake() {
         Instance = this;
 
         PlayerHealthInstance = playerHealthReference;
+        PlayerMovementInstance = playerMovementReference;
     }
 }
