@@ -3,9 +3,10 @@ using UnityEngine;
 
 public class Enemy_Logic : MonoBehaviour {
 
-
+    [Header("References")]
     [SerializeField] private Rigidbody2D enemyRb;
 
+    [Header("Values")]
     [SerializeField] private float moveSpeed = 2f;
 
     [Tooltip("The minimum distance the enemy needs to be from the player to be able to move closer to the player.")]
@@ -22,7 +23,6 @@ public class Enemy_Logic : MonoBehaviour {
 
     private float playerPositionCheckTimer = 0.2f;
     private int currentDamageAmount;
-
 
     private void Start() {
         currentDamageAmount = startDamage;

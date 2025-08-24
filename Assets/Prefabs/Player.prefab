@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 368604277948913170}
   - component: {fileID: 5888247017837561163}
   - component: {fileID: 2549077903921034908}
+  - component: {fileID: 3811117586172193456}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -233,3 +234,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   startingHealth: 100
+--- !u!114 &3811117586172193456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3655762948267377572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8b9369956f998a4389a364dc33c8266, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerMovement: {fileID: 5888247017837561163}
+  meleeAttackRange: 3
+  enemyLayerMask:
+    serializedVersion: 2
+    m_Bits: 64

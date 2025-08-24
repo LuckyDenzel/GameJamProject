@@ -8,17 +8,29 @@ public class Player_Movement : MonoBehaviour {
     [SerializeField] private float moveSpeed = 2f;
     [SerializeField] private float jumpForce = 10f;
 
+
     [SerializeField] private LayerMask groundLayerMask;
 
     private float playerHeight = 1f;
 
+    // Timers
     private float knockBackTimer;
     private float knockBackDuration = 0.2f;
 
-    private bool grounded;
     private bool isBeingKnockedBack = false;
 
+    // Other
+    private bool isFacingRight;
+
+    private bool grounded;
+
+    // Field
+    public bool IsFacingRight => isFacingRight;
+
+
     private void Update() {
+
+
         if (isBeingKnockedBack) {
             knockBackTimer -= Time.deltaTime;
 
@@ -35,6 +47,8 @@ public class Player_Movement : MonoBehaviour {
         }
 
         grounded = IsGrounded();
+
+
     }
 
     private void FixedUpdate() {
@@ -57,10 +71,14 @@ public class Player_Movement : MonoBehaviour {
         if (Input.GetKey(KeyCode.A)) {
             Vector2 forceDirection = new Vector2(-moveSpeed, 0);
             playerRb.AddForce(forceDirection, ForceMode2D.Force);
+
+            isFacingRight = false;
         }
         if (Input.GetKey(KeyCode.D)) {
             Vector2 forceDirection = new Vector2(moveSpeed, 0);
             playerRb.AddForce(forceDirection, ForceMode2D.Force);
+
+            isFacingRight = true;
         }
     }
 
