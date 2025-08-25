@@ -1,39 +1,39 @@
 using UnityEngine;
 
-public class Enemy_Health : MonoBehaviour {
+public class Enemy_Health : MonoBehaviour, IHealth {
 
 
     [SerializeField] private int maxHealth = 100;
 
     [SerializeField] private int startingHealth = 100;
 
-    private int currentHealth;
+    public int CurrentHealth { get; private set; }
 
     private void Start() {
-        currentHealth = startingHealth;
+        CurrentHealth = startingHealth;
     }
 
     public void AddHealth(int amount) {
-        if (currentHealth > 0) {
-            currentHealth += amount;
+        if (CurrentHealth > 0) {
+            CurrentHealth += amount;
         } else {
             Debug.LogError("You're trying to add health to an enemy, but the enemy is already dead. This should never happen!", this);
         }
     }
 
-    public void TakeDamage(int amount) {
-        currentHealth -= amount;
+    public void ApplyDamage(int amount) {
+        CurrentHealth -= amount;
 
-        Debug.Log($"Enemy took damage. Remaining health: {currentHealth}");
+        Debug.Log($"Enemy took damage. Remaining health: {CurrentHealth}");
 
-        if (currentHealth <= 0) {
+        if (CurrentHealth <= 0) {
             Die();
         }
     }
 
     private void Die() {
         // Set the health to 0 to make it non negative
-        currentHealth = 0;
+        CurrentHealth = 0;
 
         // For now destroy the enemy, later use a object pool
         Destroy(gameObject);

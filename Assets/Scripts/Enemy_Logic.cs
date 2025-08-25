@@ -22,10 +22,18 @@ public class Enemy_Logic : MonoBehaviour {
     private Vector2 currentPlayerPosition;
 
     private float playerPositionCheckTimer = 0.2f;
-    private int currentDamageAmount;
+    private float currentDamageAmount;
+
 
     private void Start() {
+        GameStageHandler.Instance.OnStageChanged += GameStageHandler_OnStageChanged;
+
         currentDamageAmount = startDamage;
+    }
+
+    // Listen to the OnStageChanged event to apply the current stage's multiplier to the current damage
+    private void GameStageHandler_OnStageChanged(object sender, GameStageHandler.OnStageChangedEventArgs e) {
+        ApplyMultiplierToCurrentDamageAmount(e.newGameStage.stageThreatsDamageMultiplier);
     }
 
     private void Update() {
@@ -69,7 +77,11 @@ public class Enemy_Logic : MonoBehaviour {
     }
     
     private void DealDamageToPlayer(Player_Health playerHealthScript) {
-        playerHealthScript.DealDamage(currentDamageAmount);
+        playerHealthScript.ApplyDamage(Mathf.RoundToInt(currentDamageAmount));
+    }
+
+    private void ApplyMultiplierToCurrentDamageAmount(float multiplier) {
+        currentDamageAmount *= multiplier;
     }
 
     private void ClampVelocity() {

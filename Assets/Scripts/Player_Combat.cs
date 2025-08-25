@@ -39,7 +39,7 @@ public class Player_Combat : MonoBehaviour {
     }
 
     private void PerformMeleeAttack(Enemy_Health enemyToAttack) {
-        enemyToAttack.TakeDamage(meleeAttackDamage);
+        enemyToAttack.ApplyDamage(meleeAttackDamage);
     }
 
     private bool IsEnemyClose() {

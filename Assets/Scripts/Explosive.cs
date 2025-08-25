@@ -1,8 +1,7 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Rendering;
 
-public class Explosion : MonoBehaviour {
+public class Explosive : MonoBehaviour {
 
 
     [Header("References")]
@@ -21,10 +20,17 @@ public class Explosion : MonoBehaviour {
     private bool hasExploded;
 
     private void Start() {
+        GameStageHandler.Instance.OnStageChanged += GameStageHandler_OnStageChanged;
+
         explosionParticleSystem.gameObject.SetActive(false);
 
         currentExplosionRadius = startingExplosionRadius;
         currentExplosionDamage = startingExplosionDamage;
+    }
+
+    // Listen to the OnStageChanged event to apply the current stage's multiplier to the current damage
+    private void GameStageHandler_OnStageChanged(object sender, GameStageHandler.OnStageChangedEventArgs e) {
+        ApplyMultiplierToCurrentDamageValues(e.newGameStage.stageThreatsDamageMultiplier);
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
@@ -44,6 +50,11 @@ public class Explosion : MonoBehaviour {
 
                 if (objectRb != null) {
                     Vector2 forceDirection = objectRb.position - (Vector2)transform.position;
+
+                    IHealth healthInterface;
+                    if (objectRb.transform.TryGetComponent<IHealth>(out healthInterface)) {
+                        healthInterface.ApplyDamage(Mathf.RoundToInt(currentExplosionDamage));
+                    }
 
                     objectRb.AddForce(forceDirection, ForceMode2D.Impulse);
                 }
@@ -68,5 +79,10 @@ public class Explosion : MonoBehaviour {
 
         // For now destroy the explosion, later maybe use a pooler
         Destroy(explosionParticleSystem.gameObject);
+    }
+
+    private void ApplyMultiplierToCurrentDamageValues(float multiplier) {
+        currentExplosionDamage *= multiplier;
+        currentExplosionRadius *= multiplier;
     }
 }
