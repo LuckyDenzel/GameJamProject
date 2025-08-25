@@ -114,7 +114,8 @@ MonoBehaviour:
   eplosiveRb: {fileID: 8179370273619620783}
   explosionParticleSystem: {fileID: 5956350723273778507}
   startingExplosionRadius: 5
-  startingExplosionDamage: 10
+  startingExplosionDamage: 30
+  startingExplosionDownwardForce: 40
   explosionLifetimeDuration: 7
 --- !u!1 &9060235484009421304
 GameObject:

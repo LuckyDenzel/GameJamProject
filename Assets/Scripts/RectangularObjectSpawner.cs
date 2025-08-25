@@ -7,9 +7,6 @@ public class RectangularObjectSpawner : MonoBehaviour {
     // Each element contains 1 object
     [SerializeField] private List<SpawnableObject> objectsToSpawnList;
 
-    [SerializeField] private float startingSpawnDelay = 15f;
-
-    private float currentSpawnDelay;
     private float spawnDelayTimer;
 
     private BoxCollider2D boxCollider2D;
@@ -18,16 +15,10 @@ public class RectangularObjectSpawner : MonoBehaviour {
         boxCollider2D = GetComponent<BoxCollider2D>();
     }
 
-    private void Start() {
-        currentSpawnDelay = startingSpawnDelay;
-    }
-
     private void Update() {
         spawnDelayTimer -= Time.deltaTime;
 
         if (spawnDelayTimer <= 0f) {
-            spawnDelayTimer = currentSpawnDelay;
-
             SpawnRandomObjectInRandomBounds();
         }
     }
@@ -35,10 +26,12 @@ public class RectangularObjectSpawner : MonoBehaviour {
     private void SpawnRandomObjectInRandomBounds() {
         int randomObjectIndex = Random.Range(0, objectsToSpawnList.Count);
 
-        GameObject randomGameObject = objectsToSpawnList[randomObjectIndex].gameObject;
+        SpawnableObject randomGameObject = objectsToSpawnList[randomObjectIndex];
 
         // For now Instantiate the object, later I can use a pooler
-        Instantiate(randomGameObject, GetRandomPointInSpawner(), Quaternion.identity); // For now rotation 0
+        Instantiate(randomGameObject.gameObject, GetRandomPointInSpawner(), Quaternion.identity); // For now rotation 0
+
+        spawnDelayTimer = randomGameObject.spawnDelay;
     }
 
     public Vector2 GetRandomPointInSpawner() {
@@ -55,8 +48,14 @@ public class RectangularObjectSpawner : MonoBehaviour {
 [System.Serializable]
 public class SpawnableObject {
     public GameObject gameObject;
+    public float spawnDelay;
 
-    public SpawnableObject(GameObject gameObject) {
+    public SpawnableObject(GameObject gameObject, float spawnDelay) {
         this.gameObject = gameObject;
+        this.spawnDelay = spawnDelay;
+    }
+
+    public void AddMultiplierToSpawnDelay(float multiplier) {
+        spawnDelay *= multiplier;
     }
 }

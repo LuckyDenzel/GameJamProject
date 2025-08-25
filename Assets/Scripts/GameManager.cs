@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
+
+    public const string GROUND_TAG = "Ground";
+
     public static GameManager Instance { get; private set; }
 
 

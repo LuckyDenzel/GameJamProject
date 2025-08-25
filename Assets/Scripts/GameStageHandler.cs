@@ -26,6 +26,8 @@ public class GameStageHandler : MonoBehaviour {
 
     private GameStage currentStage;
 
+    private bool hasReachedFinalStage = false;
+
 
     private void Awake() {
         Instance = this;
@@ -36,9 +38,14 @@ public class GameStageHandler : MonoBehaviour {
         currentStageIndex = 0;
 
         currentStage = stagesList[currentStageIndex];
+        currentStageTimer = currentStage.stageDuration;
     }
 
     public void Update() {
+        if (hasReachedFinalStage) {
+            return;
+        }
+
         currentStageTimer -= Time.deltaTime;
 
         if (currentStageTimer <= 0) {
@@ -47,6 +54,10 @@ public class GameStageHandler : MonoBehaviour {
             currentStage = stagesList[currentStageIndex];
 
             currentStageTimer = currentStage.stageDuration;
+
+            if (currentStageIndex > stagesList.Count - 1) {
+                hasReachedFinalStage = true;
+            }
 
             OnStageChanged?.Invoke(this, new OnStageChangedEventArgs(currentStage));
 

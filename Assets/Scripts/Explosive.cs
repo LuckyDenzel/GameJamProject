@@ -12,10 +12,13 @@ public class Explosive : MonoBehaviour {
     [SerializeField] private float startingExplosionRadius = 3f;
     [SerializeField] private float startingExplosionDamage = 10f;
 
+    [SerializeField] private float startingExplosionDownwardForce = 2f;
+
     [SerializeField] private float explosionLifetimeDuration = 7f;
 
     private float currentExplosionRadius;
     private float currentExplosionDamage;
+    private float currentExplosionDownwardForce;
 
     private bool hasExploded;
 
@@ -26,6 +29,11 @@ public class Explosive : MonoBehaviour {
 
         currentExplosionRadius = startingExplosionRadius;
         currentExplosionDamage = startingExplosionDamage;
+        currentExplosionDownwardForce = startingExplosionDownwardForce;
+    }
+
+    private void FixedUpdate() {
+        eplosiveRb.AddForce(Vector2.down * currentExplosionDownwardForce, ForceMode2D.Force);
     }
 
     // Listen to the OnStageChanged event to apply the current stage's multiplier to the current damage
@@ -84,5 +92,6 @@ public class Explosive : MonoBehaviour {
     private void ApplyMultiplierToCurrentDamageValues(float multiplier) {
         currentExplosionDamage *= multiplier;
         currentExplosionRadius *= multiplier;
+        currentExplosionDownwardForce *= multiplier;
     }
 }
