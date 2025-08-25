@@ -13,7 +13,6 @@ public class Explosion : MonoBehaviour {
     [SerializeField] private float startingExplosionRadius = 3f;
     [SerializeField] private float startingExplosionDamage = 10f;
 
-    [SerializeField] private float explosiveLifetimeDuration = 14f;
     [SerializeField] private float explosionLifetimeDuration = 7f;
 
     private float currentExplosionRadius;
@@ -54,8 +53,8 @@ public class Explosion : MonoBehaviour {
         explosionParticleSystem.gameObject.SetActive(true);
         explosionParticleSystem.Play();
 
-        // Handle deletion of this object
-        Destroy(gameObject, explosiveLifetimeDuration);
+        // Handle deletion of this object, later store in a pooler
+        Destroy(gameObject);
 
         // Handle deletion of the explosion particle system
         StartCoroutine(HandleExplosionLifetime());
