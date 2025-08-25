@@ -759,7 +759,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -131.65906, y: 45.525574}
+  m_AnchoredPosition: {x: -131.65906, y: 45.525635}
   m_SizeDelta: {x: 263.3179, y: 91.0511}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &540884621
@@ -1302,7 +1302,7 @@ GameObject:
   - component: {fileID: 2119442925}
   - component: {fileID: 2119442924}
   - component: {fileID: 2119442926}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1496,7 +1496,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7816530077670222560, guid: 17d6a5cd0fe0ea94d9cebaeb68d15cc5, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8274969420373089822, guid: 17d6a5cd0fe0ea94d9cebaeb68d15cc5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1611,6 +1611,10 @@ PrefabInstance:
     - target: {fileID: 3655762948267377572, guid: d92675a7dd1f4764d9b92c1247d2c49c, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5888247017837561163, guid: d92675a7dd1f4764d9b92c1247d2c49c, type: 3}
+      propertyPath: jumpForce
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7315821755466929142, guid: d92675a7dd1f4764d9b92c1247d2c49c, type: 3}
       propertyPath: m_LocalPosition.x

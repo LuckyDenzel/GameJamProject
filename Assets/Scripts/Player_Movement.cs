@@ -42,13 +42,11 @@ public class Player_Movement : MonoBehaviour {
             return;
         }
 
-        if (Input.GetKey(KeyCode.Space)) {
+        if (Input.GetKeyDown(KeyCode.Space)) {
             Jump();
         }
 
         grounded = IsGrounded();
-
-
     }
 
     private void FixedUpdate() {
@@ -86,6 +84,8 @@ public class Player_Movement : MonoBehaviour {
         if (grounded) {
             Vector2 jumpForceDirection = new Vector2(0, jumpForce);
             playerRb.AddForce(jumpForceDirection, ForceMode2D.Impulse);
+        } else {
+            Debug.Log("Not grounded");
         }
     }
 
