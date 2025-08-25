@@ -2,7 +2,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RectangularObjectSpawner : MonoBehaviour {
+public class RandomObjectSpawnerInBounds : MonoBehaviour {
 
     // Each element contains 1 object
     [SerializeField] private List<SpawnableObject> objectsToSpawnList;
@@ -13,6 +13,17 @@ public class RectangularObjectSpawner : MonoBehaviour {
 
     private void Awake() {
         boxCollider2D = GetComponent<BoxCollider2D>();
+    }
+
+    private void Start() {
+        GameStageHandler.Instance.OnStageChanged += GameStageHandler_OnStageChanged;
+    }
+
+    // Increase the multiplier on the values of the objects
+    private void GameStageHandler_OnStageChanged(object sender, GameStageHandler.OnStageChangedEventArgs e) {
+        foreach (var obj in objectsToSpawnList) {
+            obj.AddMultiplierToSpawnDelay(e.newGameStage.stageThreatsDamageMultiplier);
+        }
     }
 
     private void Update() {
