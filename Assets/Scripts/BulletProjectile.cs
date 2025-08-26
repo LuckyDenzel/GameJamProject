@@ -24,8 +24,8 @@ public class BulletProjectile : MonoBehaviour {
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
-        // Only run hit logic when it's not from the owner
-        if (collision.transform != ownerTransform) {
+        // Only run hit logic when it's not from the owner's tag (making all the others of the same race no affected by the bullet logic)
+        if (!collision.transform.CompareTag(ownerTransform.transform.tag)) {
             if (collision.transform.TryGetComponent<IHealth>(out IHealth objectHealthComponent)) {
                 objectHealthComponent.ApplyDamage(Mathf.RoundToInt(damageAmount));
 

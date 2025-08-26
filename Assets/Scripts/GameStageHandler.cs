@@ -55,7 +55,7 @@ public class GameStageHandler : MonoBehaviour {
 
             currentStageTimer = currentStage.stageDuration;
 
-            if (currentStageIndex > stagesList.Count - 1) {
+            if (currentStageIndex >= stagesList.Count - 1) {
                 hasReachedFinalStage = true;
             }
 

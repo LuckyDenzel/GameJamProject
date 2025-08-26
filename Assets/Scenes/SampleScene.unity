@@ -1432,12 +1432,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stagesList:
-  - stageDuration: 30
-    stageThreatsDamageMultiplier: 1.2
   - stageDuration: 40
+    stageThreatsDamageMultiplier: 1.2
+    stageBiscuitMultiplier: 1
+  - stageDuration: 30
     stageThreatsDamageMultiplier: 1.4
+    stageBiscuitMultiplier: 1
   - stageDuration: 20
     stageThreatsDamageMultiplier: 1.8
+    stageBiscuitMultiplier: 2
 --- !u!1 &2119442923
 GameObject:
   m_ObjectHideFlags: 0

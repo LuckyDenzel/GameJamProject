@@ -179,3 +179,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41b3928e9730011419c287c747a70827, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startBiscuitPickupValue: 1

@@ -49,8 +49,6 @@ public class Weapon : MonoBehaviour {
             HandleVisuals();
 
             StartCoroutine(ResetShoot());
-
-            Debug.Log("Shoot");
         }
     }
 

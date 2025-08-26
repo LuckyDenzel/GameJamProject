@@ -13,8 +13,6 @@ public class Enemy_WeaponLogic : MonoBehaviour {
     private void HandleShooting() {
         if (weaponReference.CanShoot) {
             weaponReference.Shoot();
-
-            Debug.Log("Shoot enemy");
         } else if (weaponReference.CurrentAmmoInMagazine == 0) {
             weaponReference.Reload();
 

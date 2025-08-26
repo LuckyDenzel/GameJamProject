@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 6528428878872304351}
   m_Layer: 6
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -241,6 +241,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8274969420373089822}
     m_Modifications:
+    - target: {fileID: 184820000423024748, guid: dd3352a1431dba440828343b9c752dbe, type: 3}
+      propertyPath: ownerTransform
+      value: 
+      objectReference: {fileID: 8274969420373089822}
     - target: {fileID: 184820000423024748, guid: dd3352a1431dba440828343b9c752dbe, type: 3}
       propertyPath: ownerLayerMask.m_Bits
       value: 64
