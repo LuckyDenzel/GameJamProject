@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour {
         currentScore += amount;
 
         GameStageManager.Instance.CurrentRunStats.biscuitsEarned++;
-        GameStatsTracker.biscuitsCollected++;
+        GameStatsTracker.BiscuitsEarned++;
 
         OnScoreChanged?.Invoke(this, new OnScoreChangedEventArgs(currentScore));
     }
