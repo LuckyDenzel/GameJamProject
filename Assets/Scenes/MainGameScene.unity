@@ -2487,6 +2487,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1492847706}
+  - component: {fileID: 1492847708}
   - component: {fileID: 1492847707}
   m_Layer: 5
   m_Name: StageTimerUI
@@ -2528,6 +2529,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timerText: {fileID: 481063415}
+  timerPopInAnimationClip: {fileID: 7400000, guid: 43a48ac52afa54e46854caaa0f8e255b, type: 2}
+  timerPopOutAnimationClip: {fileID: 7400000, guid: f0adac0b27716ea4dbf57cf0a8a76586, type: 2}
+--- !u!95 &1492847708
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1492847705}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 96ee9a24d0f2b524dbe4f2f8607aff0a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1498971522
 GameObject:
   m_ObjectHideFlags: 0

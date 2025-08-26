@@ -6,14 +6,29 @@ public class StageTimerUI : MonoBehaviour {
 
     [SerializeField] private TextMeshProUGUI timerText;
 
+    [Header("Animations")]
+    [SerializeField] private AnimationClip timerPopInAnimationClip;
+    [SerializeField] private AnimationClip timerPopOutAnimationClip;
+
+    private Animator animator;
+
     private float stageTimer;
+    private float stageTimerDelay;
+
     private float textUpdateTimer;
 
+
+
+    private void Awake() {
+        animator = GetComponent<Animator>();
+    }
 
     private void Start() {
         GameStageManager.Instance.OnStageChanged += GameStageManager_OnStageChanged;
 
         stageTimer = GameStageManager.Instance.GetCurrentGameStage().stageDuration;
+
+        animator.Play(timerPopInAnimationClip.name);
     }
 
     private void Update() {
@@ -34,6 +49,14 @@ public class StageTimerUI : MonoBehaviour {
     }
 
     private void GameStageManager_OnStageChanged(object sender, GameStageManager.OnStageChangedEventArgs e) {
-        stageTimer = e.newGameStage.stageDuration;
+        animator.Play(timerPopOutAnimationClip.name);
+
+        stageTimerDelay = e.newGameStage.stageDuration;
+    }
+
+    private void PlayPopInAnimation() {
+        animator.Play(timerPopInAnimationClip.name);
+
+        stageTimer = stageTimerDelay;
     }
 }
