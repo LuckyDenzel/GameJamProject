@@ -58,7 +58,7 @@ public class Player_Health : MonoBehaviour, IHealth {
         // Set the health back to zero for a cleaner look
         CurrentHealth = 0;
 
-        GameManager.Instance.EndGame();
+        GameManager.Instance.EndGameFailed();
     }
 
     public int GetCurrentHealthAmount() {

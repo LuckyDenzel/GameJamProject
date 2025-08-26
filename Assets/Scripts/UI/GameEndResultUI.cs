@@ -44,8 +44,8 @@ public class GameEndResultUI : MonoBehaviour {
 
         biscuitsEarnedAmountText.text = $"Total Earned Biscuits: {gameRunStats.biscuitsEarned}";
         totalEarnedPintsText.text = $"Total Earned Pints: {gameRunStats.pintsEarned}";
-        totalCookiesText.text = $"Total Cookies: {GameManager.Instance.GetCurrentBiscuitsScore()}";
-        totalPintsText.text = $"Total Pints: {GameManager.Instance.GetCurrentPintsScore()}";
+        totalCookiesText.text = $"Total Cookies: {GameManager.Instance.GetTotalBiscuitsScore()}";
+        totalPintsText.text = $"Total Pints: {GameManager.Instance.GetTotalPintsScore()}";
     }
 
     private void Show() {

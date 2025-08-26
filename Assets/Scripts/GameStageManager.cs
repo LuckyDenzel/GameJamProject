@@ -34,15 +34,15 @@ public class GameStageManager : MonoBehaviour {
 
     private void Awake() {
         Instance = this;
-    }
 
-    private void Start() {
         // Start at stage index 0
         currentStageIndex = 0;
 
         currentStage = stagesList[currentStageIndex];
         currentStageTimer = currentStage.stageDuration;
+    }
 
+    private void Start() {
         // Initialize the run stats
         currentRunStats = new GameRunStats(
             GameManager.Instance.GetCurrentBiscuitsScore(), 
@@ -83,5 +83,9 @@ public class GameStageManager : MonoBehaviour {
         hasGameEnded = true;
 
         GameEndResultUI.Instance.ShowGameEndResultStats(currentRunStats);
+    }
+
+    public GameStage GetCurrentGameStage() {
+        return currentStage;
     }
 }

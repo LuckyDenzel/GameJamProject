@@ -21,8 +21,11 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    private int currentBiscuitsScore;
-    private int currentPintsScore;
+    private int currentBiscuitsScore = 0;
+    private int currentPintsScore = 0;
+
+    private int totalEarnedBiscuitsScore;
+    private int totalEarnedPintsScore;
 
 
     private void Awake() {
@@ -30,21 +33,22 @@ public class GameManager : MonoBehaviour {
     }
 
     private void Start() {
-        currentBiscuitsScore = PlayerPrefs.GetInt(BISCUITS_EARNED_AMOUNT_PLAYER_PREFS, 0);
-        currentPintsScore = PlayerPrefs.GetInt(PINTS_EARNED_AMOUNT_PLAYER_PREFS, 0);
+        totalEarnedBiscuitsScore = PlayerPrefs.GetInt(BISCUITS_EARNED_AMOUNT_PLAYER_PREFS, 0);
+        totalEarnedPintsScore = PlayerPrefs.GetInt(PINTS_EARNED_AMOUNT_PLAYER_PREFS, 0);
+
+        OnScoreChanged?.Invoke(this, new OnScoreChangedEventArgs(currentBiscuitsScore));
     }
 
     private void Update() {
         if (Input.GetKeyDown(KeyCode.V)) {
             // Disable all the stage handling
-            GameStageManager.Instance.EndGame();
+            GameManager.Instance.EndGameSuccesfully();
         }
     }
 
     public void AddBiscuitToScore(int value) {
         currentBiscuitsScore += value;
 
-        GameStageManager.Instance.CurrentRunStats.biscuitsEarned++;
         GameStatsTracker.BiscuitsEarned++;
 
         OnScoreChanged?.Invoke(this, new OnScoreChangedEventArgs(currentBiscuitsScore));
@@ -53,7 +57,6 @@ public class GameManager : MonoBehaviour {
     public void AddPintToScore(int value) {
         currentPintsScore += value;
 
-        GameStageManager.Instance.CurrentRunStats.pintsEarned++;
         GameStatsTracker.PintsEarned++;
     }
 
@@ -62,11 +65,35 @@ public class GameManager : MonoBehaviour {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void EndGame() {
+    public void EndGameSuccesfully() {
         Time.timeScale = 0f;
 
+        // Add the earned points to the total points
+        totalEarnedBiscuitsScore += currentBiscuitsScore;
+        totalEarnedPintsScore += currentPintsScore;
+
         // Save the amount of biscuits earned
-        PlayerPrefs.SetInt(BISCUITS_EARNED_AMOUNT_PLAYER_PREFS, currentBiscuitsScore);
+        PlayerPrefs.SetInt(BISCUITS_EARNED_AMOUNT_PLAYER_PREFS, totalEarnedBiscuitsScore);
+
+        // Save the amount of pints earned
+        PlayerPrefs.SetInt(PINTS_EARNED_AMOUNT_PLAYER_PREFS, totalEarnedPintsScore);
+
+        GameStageManager.Instance.CurrentRunStats.biscuitsEarned = currentBiscuitsScore;
+        GameStageManager.Instance.CurrentRunStats.pintsEarned = currentPintsScore;
+
+        PlayerPrefs.Save();
+
+        GameStageManager.Instance.EndGame();
+    }
+
+    public void EndGameFailed() {
+        Time.timeScale = 0f;
+
+        currentBiscuitsScore = 0;
+        currentPintsScore = 0;
+
+        GameStageManager.Instance.CurrentRunStats.biscuitsEarned = currentBiscuitsScore;
+        GameStageManager.Instance.CurrentRunStats.pintsEarned = currentPintsScore;
 
         GameStageManager.Instance.EndGame();
     }
@@ -77,5 +104,13 @@ public class GameManager : MonoBehaviour {
 
     public int GetCurrentPintsScore() {
         return currentPintsScore;
+    }
+
+    public int GetTotalBiscuitsScore() {
+        return totalEarnedBiscuitsScore;
+    }
+
+    public int GetTotalPintsScore() {
+        return totalEarnedPintsScore;
     }
 }
