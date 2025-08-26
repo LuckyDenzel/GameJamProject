@@ -8,12 +8,12 @@ public class CollectableBiscuit : MonoBehaviour {
     private int currentBiscuitPickupValue;
 
     private void Start() {
-        GameStageHandler.Instance.OnStageChanged += GameStageHandler_OnStageChanged;
+        GameStageManager.Instance.OnStageChanged += GameStageHandler_OnStageChanged;
 
         currentBiscuitPickupValue = startBiscuitPickupValue;
     }
 
-    private void GameStageHandler_OnStageChanged(object sender, GameStageHandler.OnStageChangedEventArgs e) {
+    private void GameStageHandler_OnStageChanged(object sender, GameStageManager.OnStageChangedEventArgs e) {
         ApplyMultiplierToBiscuitValue(e.newGameStage.stageBiscuitMultiplier);
     }
 

@@ -16,11 +16,11 @@ public class RandomObjectSpawnerInBounds : MonoBehaviour {
     }
 
     private void Start() {
-        GameStageHandler.Instance.OnStageChanged += GameStageHandler_OnStageChanged;
+        GameStageManager.Instance.OnStageChanged += GameStageHandler_OnStageChanged;
     }
 
     // Increase the multiplier on the values of the objects
-    private void GameStageHandler_OnStageChanged(object sender, GameStageHandler.OnStageChangedEventArgs e) {
+    private void GameStageHandler_OnStageChanged(object sender, GameStageManager.OnStageChangedEventArgs e) {
         foreach (var obj in objectsToSpawnList) {
             obj.AddMultiplierToSpawnDelay(e.newGameStage.stageThreatsDamageMultiplier);
         }

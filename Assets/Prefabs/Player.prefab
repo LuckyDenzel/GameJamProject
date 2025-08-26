@@ -116,6 +116,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHealthReference: {fileID: 2549077903921034908}
   playerMovementReference: {fileID: 5888247017837561163}
+  playerCombatReference: {fileID: 3811117586172193456}
 --- !u!114 &5888247017837561163
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -23,7 +23,7 @@ public class ArrowProjectile : MonoBehaviour {
     }
 
     private void Start() {
-        GameStageHandler.Instance.OnStageChanged += GameStageHandler_OnStageChanged;
+        GameStageManager.Instance.OnStageChanged += GameStageHandler_OnStageChanged;
 
         arrowRb.centerOfMass = new Vector2(0, -0.6f);
 
@@ -31,7 +31,7 @@ public class ArrowProjectile : MonoBehaviour {
         currentDownwardForce = startingDownwardForce;
     }
 
-    private void GameStageHandler_OnStageChanged(object sender, GameStageHandler.OnStageChangedEventArgs e) {
+    private void GameStageHandler_OnStageChanged(object sender, GameStageManager.OnStageChangedEventArgs e) {
         ApplyMultiplierToCurrentValues(e.newGameStage.stageThreatsDamageMultiplier);
     }
 

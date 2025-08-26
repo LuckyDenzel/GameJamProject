@@ -58,7 +58,7 @@ public class Player_Health : MonoBehaviour, IHealth {
         // Set the health back to zero for a cleaner look
         CurrentHealth = 0;
 
-        Debug.Log("Player is dead!");
+        GameManager.Instance.EndGame();
     }
 
     public int GetCurrentHealthAmount() {

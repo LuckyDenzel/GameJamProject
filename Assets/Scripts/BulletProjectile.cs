@@ -11,10 +11,14 @@ public class BulletProjectile : MonoBehaviour {
 
     private float damageAmount;
 
+    private string ownerTag;
+
     private void Start() {
         if (damageAmount == 0) {
             Debug.LogError("The damage amount isn't specified on this bullet projectile!", this);
         }
+
+        ownerTag = ownerTransform.tag;
     }
 
     private void FixedUpdate() {
@@ -25,7 +29,7 @@ public class BulletProjectile : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision) {
         // Only run hit logic when it's not from the owner's tag (making all the others of the same race no affected by the bullet logic)
-        if (!collision.transform.CompareTag(ownerTransform.transform.tag)) {
+        if (!collision.transform.CompareTag(ownerTag)) {
             if (collision.transform.TryGetComponent<IHealth>(out IHealth objectHealthComponent)) {
                 objectHealthComponent.ApplyDamage(Mathf.RoundToInt(damageAmount));
 

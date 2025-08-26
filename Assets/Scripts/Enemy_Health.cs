@@ -24,8 +24,6 @@ public class Enemy_Health : MonoBehaviour, IHealth {
     public void ApplyDamage(int amount) {
         CurrentHealth -= amount;
 
-        Debug.Log($"Enemy took damage. Remaining health: {CurrentHealth}");
-
         if (CurrentHealth <= 0) {
             Die();
         }

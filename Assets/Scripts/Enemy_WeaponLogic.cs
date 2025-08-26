@@ -15,8 +15,6 @@ public class Enemy_WeaponLogic : MonoBehaviour {
             weaponReference.Shoot();
         } else if (weaponReference.CurrentAmmoInMagazine == 0) {
             weaponReference.Reload();
-
-            Debug.Log("Enemy reload");
         }
     }
 

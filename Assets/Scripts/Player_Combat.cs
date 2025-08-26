@@ -13,6 +13,8 @@ public class Player_Combat : MonoBehaviour {
     private float closestEnemyCheckTimer;
     private float closestEnemyCheckTimerDuration = 0.2f;
 
+    private int enemiesKilled;
+
     private Collider2D currentClosestEnemy;
     private Collider2D[] currentClosestEnemiesArray;
 
@@ -33,7 +35,20 @@ public class Player_Combat : MonoBehaviour {
         // Listen to melee input
         if (currentClosestEnemy != null) {
             if (Input.GetKeyDown(KeyCode.Mouse0)) {
-                PerformMeleeAttack(currentClosestEnemy.GetComponent<Enemy_Health>());
+                currentClosestEnemy.TryGetComponent<Enemy_Health>(out Enemy_Health enemyHealth);
+
+                // Calculate if the enemy will be dead or not from the attack
+                if (enemyHealth.CurrentHealth - meleeAttackDamage > 0) {
+                    PerformMeleeAttack(enemyHealth);
+                } else {
+                    PerformMeleeAttack(enemyHealth);
+
+                    // Add +1 to the enemies killed variable
+                    enemiesKilled++;
+
+                    GameStageManager.Instance.CurrentRunStats.enemiesKilled++;
+                    GameStatsTracker.enemiesKilled++;
+                }
             }
         }
     }
@@ -81,5 +96,9 @@ public class Player_Combat : MonoBehaviour {
         }
 
         return closestEnemy;
+    }
+
+    public int GetCurrentEnemiesKilledAmount() {
+        return enemiesKilled;
     }
 }

@@ -23,7 +23,7 @@ public class Explosive : MonoBehaviour {
     private bool hasExploded;
 
     private void Start() {
-        GameStageHandler.Instance.OnStageChanged += GameStageHandler_OnStageChanged;
+        GameStageManager.Instance.OnStageChanged += GameStageHandler_OnStageChanged;
 
         explosionParticleSystem.gameObject.SetActive(false);
 
@@ -37,7 +37,7 @@ public class Explosive : MonoBehaviour {
     }
 
     // Listen to the OnStageChanged event to apply the current stage's multiplier to the current damage
-    private void GameStageHandler_OnStageChanged(object sender, GameStageHandler.OnStageChangedEventArgs e) {
+    private void GameStageHandler_OnStageChanged(object sender, GameStageManager.OnStageChangedEventArgs e) {
         ApplyMultiplierToCurrentDamageValues(e.newGameStage.stageThreatsDamageMultiplier);
     }
 

@@ -28,7 +28,7 @@ public class Enemy_Logic : MonoBehaviour {
     private bool previousIsFacingRight;
 
     private void Start() {
-        GameStageHandler.Instance.OnStageChanged += GameStageHandler_OnStageChanged;
+        GameStageManager.Instance.OnStageChanged += GameStageHandler_OnStageChanged;
 
         currentDamageAmount = startDamage;
 
@@ -36,7 +36,7 @@ public class Enemy_Logic : MonoBehaviour {
     }
 
     // Listen to the OnStageChanged event to apply the current stage's multiplier to the current damage
-    private void GameStageHandler_OnStageChanged(object sender, GameStageHandler.OnStageChangedEventArgs e) {
+    private void GameStageHandler_OnStageChanged(object sender, GameStageManager.OnStageChangedEventArgs e) {
         ApplyMultiplierToCurrentDamageAmount(e.newGameStage.stageThreatsDamageMultiplier);
     }
 

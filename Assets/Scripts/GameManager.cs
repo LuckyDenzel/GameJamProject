@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
@@ -25,10 +26,31 @@ public class GameManager : MonoBehaviour {
         Instance = this;
     }
 
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.V)) {
+            // Disable all the stage handling
+            GameStageManager.Instance.EndGame();
+        }
+    }
+
     public void AddScore(int amount) {
         currentScore += amount;
 
+        GameStageManager.Instance.CurrentRunStats.biscuitsEarned++;
+        GameStatsTracker.biscuitsCollected++;
+
         OnScoreChanged?.Invoke(this, new OnScoreChangedEventArgs(currentScore));
+    }
+
+    public void StartNewRun() {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void EndGame() {
+        Time.timeScale = 0f;
+
+        GameStageManager.Instance.EndGame();
     }
 
     public int GetCurrentScore() {
