@@ -44,7 +44,11 @@ public class GameStageManager : MonoBehaviour {
         currentStageTimer = currentStage.stageDuration;
 
         // Initialize the run stats
-        currentRunStats = new GameRunStats(GameManager.Instance.GetCurrentScore(), Player_Logic.PlayerCombatIntance.GetCurrentEnemiesKilledAmount());
+        currentRunStats = new GameRunStats(
+            GameManager.Instance.GetCurrentBiscuitsScore(), 
+            GameManager.Instance.GetCurrentPintsScore(), 
+            Player_Logic.PlayerCombatIntance.GetCurrentEnemiesKilledAmount()
+        );
     }
 
     public void Update() {

@@ -48,6 +48,9 @@ public class Player_Combat : MonoBehaviour {
 
                     GameStageManager.Instance.CurrentRunStats.enemiesKilled++;
                     GameStatsTracker.EnemiesKilled++;
+
+                    // Add 1 pint to the score
+                    GameManager.Instance.AddPintToScore(1);
                 }
             }
         }

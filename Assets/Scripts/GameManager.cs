@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour {
 
     public const string GROUND_TAG = "Ground";
     private const string BISCUITS_EARNED_AMOUNT_PLAYER_PREFS = "SavedBiscuitsEarnedPlayerPrefs";
+    private const string PINTS_EARNED_AMOUNT_PLAYER_PREFS = "SavedPintsEarnedPlayerPrefs";
 
     public static GameManager Instance { get; private set; }
 
@@ -20,7 +21,8 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    private int currentScore = 0;
+    private int currentBiscuitsScore;
+    private int currentPintsScore;
 
 
     private void Awake() {
@@ -28,7 +30,8 @@ public class GameManager : MonoBehaviour {
     }
 
     private void Start() {
-        currentScore = PlayerPrefs.GetInt(BISCUITS_EARNED_AMOUNT_PLAYER_PREFS, 0);
+        currentBiscuitsScore = PlayerPrefs.GetInt(BISCUITS_EARNED_AMOUNT_PLAYER_PREFS, 0);
+        currentPintsScore = PlayerPrefs.GetInt(PINTS_EARNED_AMOUNT_PLAYER_PREFS, 0);
     }
 
     private void Update() {
@@ -38,13 +41,20 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    public void AddScore(int amount) {
-        currentScore += amount;
+    public void AddBiscuitToScore(int value) {
+        currentBiscuitsScore += value;
 
         GameStageManager.Instance.CurrentRunStats.biscuitsEarned++;
         GameStatsTracker.BiscuitsEarned++;
 
-        OnScoreChanged?.Invoke(this, new OnScoreChangedEventArgs(currentScore));
+        OnScoreChanged?.Invoke(this, new OnScoreChangedEventArgs(currentBiscuitsScore));
+    }
+
+    public void AddPintToScore(int value) {
+        currentPintsScore += value;
+
+        GameStageManager.Instance.CurrentRunStats.pintsEarned++;
+        GameStatsTracker.PintsEarned++;
     }
 
     public void StartNewRun() {
@@ -56,12 +66,16 @@ public class GameManager : MonoBehaviour {
         Time.timeScale = 0f;
 
         // Save the amount of biscuits earned
-        PlayerPrefs.SetInt(BISCUITS_EARNED_AMOUNT_PLAYER_PREFS, currentScore);
+        PlayerPrefs.SetInt(BISCUITS_EARNED_AMOUNT_PLAYER_PREFS, currentBiscuitsScore);
 
         GameStageManager.Instance.EndGame();
     }
 
-    public int GetCurrentScore() {
-        return currentScore;
+    public int GetCurrentBiscuitsScore() {
+        return currentBiscuitsScore;
+    }
+
+    public int GetCurrentPintsScore() {
+        return currentPintsScore;
     }
 }
