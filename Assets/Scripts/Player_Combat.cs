@@ -47,7 +47,7 @@ public class Player_Combat : MonoBehaviour {
                     enemiesKilled++;
 
                     GameStageManager.Instance.CurrentRunStats.enemiesKilled++;
-                    GameStatsTracker.enemiesKilled++;
+                    GameStatsTracker.EnemiesKilled++;
                 }
             }
         }

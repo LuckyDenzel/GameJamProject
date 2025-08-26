@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour {
 
 
     public const string GROUND_TAG = "Ground";
+    private const string BISCUITS_EARNED_AMOUNT_PLAYER_PREFS = "SavedBiscuitsEarnedPlayerPrefs";
 
     public static GameManager Instance { get; private set; }
 
@@ -24,6 +25,10 @@ public class GameManager : MonoBehaviour {
 
     private void Awake() {
         Instance = this;
+    }
+
+    private void Start() {
+        currentScore = PlayerPrefs.GetInt(BISCUITS_EARNED_AMOUNT_PLAYER_PREFS, 0);
     }
 
     private void Update() {
@@ -49,6 +54,9 @@ public class GameManager : MonoBehaviour {
 
     public void EndGame() {
         Time.timeScale = 0f;
+
+        // Save the amount of biscuits earned
+        PlayerPrefs.SetInt(BISCUITS_EARNED_AMOUNT_PLAYER_PREFS, currentScore);
 
         GameStageManager.Instance.EndGame();
     }

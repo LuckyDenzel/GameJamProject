@@ -12,6 +12,7 @@ public class GameEndResultUI : MonoBehaviour {
 
     [Header("Text References")]
     [SerializeField] private TextMeshProUGUI biscuitsEarnedAmountText;
+    [SerializeField] private TextMeshProUGUI totalCookiesText;
     [SerializeField] private TextMeshProUGUI totalEnemiesKilledText;
 
     [Header("Button References")]
@@ -41,6 +42,7 @@ public class GameEndResultUI : MonoBehaviour {
 
         biscuitsEarnedAmountText.text = $"Total Earned Biscuits: {gameRunStats.biscuitsEarned}";
         totalEnemiesKilledText.text = $"Total Enemies Killed: {gameRunStats.enemiesKilled}";
+        totalCookiesText.text = $"Total Cookies: {GameManager.Instance.GetCurrentScore()}";
     }
 
     private void Show() {
