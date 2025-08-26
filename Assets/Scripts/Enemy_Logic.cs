@@ -24,11 +24,15 @@ public class Enemy_Logic : MonoBehaviour {
     private float playerPositionCheckTimer = 0.2f;
     private float currentDamageAmount;
 
+    private bool isFacingRight;
+    private bool previousIsFacingRight;
 
     private void Start() {
         GameStageHandler.Instance.OnStageChanged += GameStageHandler_OnStageChanged;
 
         currentDamageAmount = startDamage;
+
+        previousIsFacingRight = isFacingRight;
     }
 
     // Listen to the OnStageChanged event to apply the current stage's multiplier to the current damage
@@ -74,6 +78,24 @@ public class Enemy_Logic : MonoBehaviour {
         float forceDirection = Mathf.Sign(currentPlayerPosition.x - transform.position.x) * moveSpeed;
 
         enemyRb.AddForceX(forceDirection, ForceMode2D.Force);
+
+        if (forceDirection > 0) { // The enemy is moving right
+            isFacingRight = true;
+        } else if (forceDirection < 0) { // The enemy is moving left
+            isFacingRight = false;
+        }
+
+        // Flip only when the direction changes
+        if (isFacingRight != previousIsFacingRight) {
+            TurnAround();
+            previousIsFacingRight = isFacingRight;
+        }
+    }
+
+    private void TurnAround() {
+        Vector3 scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
     }
     
     private void DealDamageToPlayer(Player_Health playerHealthScript) {

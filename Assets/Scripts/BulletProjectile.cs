@@ -7,6 +7,8 @@ public class BulletProjectile : MonoBehaviour {
 
     [SerializeField] private float bulletSpeed = 100f;
 
+    private Transform ownerTransform;
+
     private float damageAmount;
 
     private void Start() {
@@ -22,9 +24,19 @@ public class BulletProjectile : MonoBehaviour {
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.transform.TryGetComponent<IHealth>(out IHealth objectHealthComponent)) {
-            objectHealthComponent.ApplyDamage(Mathf.RoundToInt(damageAmount));
+        // Only run hit logic when it's not from the owner
+        if (collision.transform != ownerTransform) {
+            if (collision.transform.TryGetComponent<IHealth>(out IHealth objectHealthComponent)) {
+                objectHealthComponent.ApplyDamage(Mathf.RoundToInt(damageAmount));
+
+                // For now destroy the bullet, later use a pooler
+                Destroy(gameObject);
+            }
         }
+    }
+
+    public void AssignOwner(Transform owner) {
+        ownerTransform = owner;
     }
 
     public void DefineDamageAmount(float amount) {
