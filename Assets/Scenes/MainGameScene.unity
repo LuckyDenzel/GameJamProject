@@ -2204,8 +2204,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectsToSpawnList:
-  - gameObject: {fileID: 7816530077670222560, guid: 17d6a5cd0fe0ea94d9cebaeb68d15cc5, type: 3}
+  - gameObject: {fileID: 7816530077670222560, guid: 369fcc17f2dca194c9e06740c278289e, type: 3}
     spawnDelay: 8
+  - gameObject: {fileID: 7816530077670222560, guid: 17d6a5cd0fe0ea94d9cebaeb68d15cc5, type: 3}
+    spawnDelay: 16
 --- !u!61 &1138290589
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -11,25 +11,34 @@ public class BulletProjectile : MonoBehaviour {
 
     private float damageAmount;
 
+    private float direction;
+
     private string ownerTag;
 
     private void Start() {
         if (damageAmount == 0) {
-            Debug.LogError("The damage amount isn't specified on this bullet projectile!", this);
+            damageAmount = 10f;
+
+            Debug.LogWarning("The damage amount isn't specified on this bullet projectile! Defaulting to 10", this);
+        }
+        if (direction == 0) {
+            Debug.LogError("There's no direction set on this bullet!", this);
         }
 
-        ownerTag = ownerTransform.tag;
+        if (ownerTransform != null) {
+            ownerTag = ownerTransform.tag;
+        }
+
+        GameStageManager.Instance.OnStageChanged += GameStageManager_OnStageChanged;
     }
 
-    private void FixedUpdate() {
-        Vector2 forceDirection = transform.forward * bulletSpeed;
-
-        bulletRb.AddForce(forceDirection, ForceMode2D.Impulse);
+    private void GameStageManager_OnStageChanged(object sender, GameStageManager.OnStageChangedEventArgs e) {
+        ApplyMultiplierOnBulletSpeed(e.newGameStage.stageThreatsDamageMultiplier);
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
         // Only run hit logic when it's not from the owner's tag (making all the others of the same race no affected by the bullet logic)
-        if (!collision.transform.CompareTag(ownerTag)) {
+        if (ownerTag != string.Empty && !collision.transform.CompareTag(ownerTag)) {
             if (collision.transform.TryGetComponent<IHealth>(out IHealth objectHealthComponent)) {
                 objectHealthComponent.ApplyDamage(Mathf.RoundToInt(damageAmount));
 
@@ -39,11 +48,22 @@ public class BulletProjectile : MonoBehaviour {
         }
     }
 
+    private void ApplyMultiplierOnBulletSpeed(float multiplier) {
+        bulletSpeed *= multiplier;
+    }
+
     public void AssignOwner(Transform owner) {
         ownerTransform = owner;
     }
 
     public void DefineDamageAmount(float amount) {
         damageAmount = amount;
+    }
+
+    public void SetBulletDirection(float dir) {
+        direction = dir;
+
+        // Inverse the direction since the bullet should shoot away from the owner
+        bulletRb.linearVelocity = new Vector2(-direction * bulletSpeed, 0f);
     }
 }

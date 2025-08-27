@@ -73,6 +73,7 @@ public class Weapon : MonoBehaviour {
 
             bulletProjectile.AssignOwner(ownerTransform);
             bulletProjectile.DefineDamageAmount(damage);
+            bulletProjectile.SetBulletDirection(Mathf.Sign(ownerTransform.localScale.x));
         }
     }
 

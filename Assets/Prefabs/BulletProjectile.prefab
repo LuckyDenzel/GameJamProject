@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4455809460116890167}
   - component: {fileID: 2499704907698945803}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BulletModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 7413776566983391775}
   - component: {fileID: 8468300472149068581}
   - component: {fileID: 7718606933017421666}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BulletProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -208,4 +208,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletRb: {fileID: 8468300472149068581}
-  bulletSpeed: 100
+  bulletSpeed: 30
