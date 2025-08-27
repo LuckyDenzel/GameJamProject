@@ -23,6 +23,7 @@ public class Player_Movement : MonoBehaviour {
     private bool isFacingRight;
 
     private bool grounded;
+    private bool canJump = true;
 
     // Field
     public bool IsFacingRight => isFacingRight;
@@ -57,7 +58,7 @@ public class Player_Movement : MonoBehaviour {
     }
 
     public bool IsGrounded() {
-        float playerHeight = this.playerHeight + 0.5f;
+        float playerHeight = this.playerHeight;
         if (Physics2D.Raycast(transform.position, Vector3.down, playerHeight, groundLayerMask)) {
             return true;
         }
@@ -81,12 +82,18 @@ public class Player_Movement : MonoBehaviour {
     }
 
     private void Jump() {
-        if (grounded) {
+        if (grounded && canJump) {
+            canJump = false;
+
             Vector2 jumpForceDirection = new Vector2(0, jumpForce);
             playerRb.AddForce(jumpForceDirection, ForceMode2D.Impulse);
-        } else {
-            Debug.Log("Not grounded");
+
+            Invoke(nameof(ResetJump), 0.3f);
         }
+    }
+
+    private void ResetJump() {
+        canJump = true;
     }
 
     public void ApplyKnockbackToPlayer() {
