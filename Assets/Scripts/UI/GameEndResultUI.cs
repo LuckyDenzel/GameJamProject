@@ -10,6 +10,8 @@ public class GameEndResultUI : MonoBehaviour {
 
     [SerializeField] private GameUpgradesUI upgradesUI;
 
+    [SerializeField] private Transform canvasTransform;
+
     [Header("Text References")]
     [SerializeField] private TextMeshProUGUI biscuitsEarnedAmountText;
     [SerializeField] private TextMeshProUGUI totalEarnedPintsText;
@@ -50,6 +52,12 @@ public class GameEndResultUI : MonoBehaviour {
 
     private void Show() {
         gameObject.SetActive(true);
+
+        foreach (Transform UI in canvasTransform) {
+            if (UI == transform) continue;
+
+            UI.gameObject.SetActive(false);
+        }
     }
 
     private void Hide() {

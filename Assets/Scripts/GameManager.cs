@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour {
     private void Update() {
         if (Input.GetKeyDown(KeyCode.V)) {
             // Disable all the stage handling
-            GameManager.Instance.EndGameSuccesfully();
+            EndGameSuccesfully();
         }
     }
 

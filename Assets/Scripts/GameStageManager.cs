@@ -74,15 +74,16 @@ public class GameStageManager : MonoBehaviour {
             hasReachedFinalStage = true;
         }
 
-        OnStageChanged?.Invoke(this, new OnStageChangedEventArgs(currentStage));
+        GameStatsTracker.TotalStagesPassed++;
 
-        Debug.Log($"Current stage: stage {currentStageIndex}");
+        OnStageChanged?.Invoke(this, new OnStageChangedEventArgs(currentStage));
     }
 
     public void EndGame() {
         hasGameEnded = true;
 
         GameEndResultUI.Instance.ShowGameEndResultStats(currentRunStats);
+        GameStatsTracker.TotalRunsCompleted++;
     }
 
     public GameStage GetCurrentGameStage() {
