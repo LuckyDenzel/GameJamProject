@@ -27,10 +27,13 @@ public class RandomObjectSpawnerInBounds : MonoBehaviour {
     }
 
     private void Update() {
-        spawnDelayTimer -= Time.deltaTime;
+        foreach (var obj in objectsToSpawnList) {
+            obj.currentTimer -= Time.deltaTime;
 
-        if (spawnDelayTimer <= 0f) {
-            SpawnRandomObjectInRandomBounds();
+            if (obj.currentTimer <= 0) {
+                Instantiate(obj.gameObject, GetRandomPointInSpawner(), Quaternion.identity);
+                obj.currentTimer = obj.spawnDelay;
+            }
         }
     }
 
@@ -61,12 +64,16 @@ public class SpawnableObject {
     public GameObject gameObject;
     public float spawnDelay;
 
+    [HideInInspector] public float currentTimer;
+
     public SpawnableObject(GameObject gameObject, float spawnDelay) {
         this.gameObject = gameObject;
         this.spawnDelay = spawnDelay;
+        currentTimer = spawnDelay;
     }
 
     public void AddMultiplierToSpawnDelay(float multiplier) {
         spawnDelay *= multiplier;
+        currentTimer = spawnDelay;
     }
 }
