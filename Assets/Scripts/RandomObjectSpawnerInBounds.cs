@@ -37,17 +37,6 @@ public class RandomObjectSpawnerInBounds : MonoBehaviour {
         }
     }
 
-    private void SpawnRandomObjectInRandomBounds() {
-        int randomObjectIndex = Random.Range(0, objectsToSpawnList.Count);
-
-        SpawnableObject randomGameObject = objectsToSpawnList[randomObjectIndex];
-
-        // For now Instantiate the object, later I can use a pooler
-        Instantiate(randomGameObject.gameObject, GetRandomPointInSpawner(), Quaternion.identity); // For now rotation 0
-
-        spawnDelayTimer = randomGameObject.spawnDelay;
-    }
-
     public Vector2 GetRandomPointInSpawner() {
         Bounds bounds = boxCollider2D.bounds;
 
@@ -73,6 +62,14 @@ public class SpawnableObject {
     }
 
     public void AddMultiplierToSpawnDelay(float multiplier) {
+        if (multiplier <= 0f) {
+            Debug.LogWarning("Multiplier must be greater than zero.");
+            return;
+        }
+
+        // Make sure the multiplier becomes a decimal number
+        float delayMultiplier = spawnDelay / multiplier;
+
         spawnDelay *= multiplier;
         currentTimer = spawnDelay;
     }

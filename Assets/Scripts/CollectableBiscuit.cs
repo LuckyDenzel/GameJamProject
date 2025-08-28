@@ -5,7 +5,17 @@ public class CollectableBiscuit : MonoBehaviour {
 
     [SerializeField] private int startBiscuitPickupValue = 1;
 
+    [SerializeField] private Collider2D triggerCollider;
+    [SerializeField] private Collider2D collisionCollider;
+
+    private Rigidbody2D biscuitRb;
+
     private int currentBiscuitPickupValue;
+
+
+    private void Awake() {
+        biscuitRb = GetComponent<Rigidbody2D>();
+    }
 
     private void Start() {
         GameStageManager.Instance.OnStageChanged += GameStageHandler_OnStageChanged;
@@ -15,6 +25,14 @@ public class CollectableBiscuit : MonoBehaviour {
 
     private void GameStageHandler_OnStageChanged(object sender, GameStageManager.OnStageChangedEventArgs e) {
         ApplyMultiplierToBiscuitValue(e.newGameStage.stageBiscuitMultiplier);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision) {
+        if (collision.transform.CompareTag(GameManager.GROUND_TAG)) {
+            biscuitRb.bodyType = RigidbodyType2D.Kinematic;
+
+            collisionCollider.enabled = false;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
