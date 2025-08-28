@@ -7,13 +7,17 @@ public class GameUpgradesUI : MonoBehaviour {
     [Header("References")]
     [SerializeField] private StatisticsUI statisticsUI;
 
-    [Header("Button")]
+    [Header("Buttons")]
+    [SerializeField] private Button newRunButton;
     [SerializeField] private Button statisticsButton;
 
 
     private void Awake() {
         statisticsButton.onClick.AddListener(() => {
             statisticsUI.Show();
+        });
+        newRunButton.onClick.AddListener(() => {
+            GameManager.Instance.StartNewRun();
         });
     }
 

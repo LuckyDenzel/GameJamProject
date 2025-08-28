@@ -15,6 +15,15 @@ public static class GameStatsTracker {
     private static int totalStagesPassed;
     private static int totalRunsCompleted;
 
+    static GameStatsTracker() {
+        biscuitsEarned = PlayerPrefs.GetInt(TOTAL_BISCUITS_EARNED_PLAYER_PREFS, 0);
+        pintsEarned = PlayerPrefs.GetInt(TOTAL_PINTS_EARNED_PLAYER_PREFS, 0);
+        enemiesKilled = PlayerPrefs.GetInt(TOTAL_ENEMIES_KILLED_PLAYER_PREFS, 0);
+        totalStagesPassed = PlayerPrefs.GetInt(TOTAL_STAGES_PASSED_PLAYER_PREFS, 0);
+        totalRunsCompleted = PlayerPrefs.GetInt(TOTAL_RUNS_COMPLETED_PLAYER_PREFS, 0);
+    }
+
+
     public static int BiscuitsEarned {
         get => biscuitsEarned;
         set {

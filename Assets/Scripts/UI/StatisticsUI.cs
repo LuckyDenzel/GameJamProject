@@ -1,15 +1,26 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StatisticsUI : MonoBehaviour {
 
 
+    [Header("Button References")]
+    [SerializeField] private Button closeButton;
+
+    [Header("Text References")]
     [SerializeField] private TextMeshProUGUI totalEarnedBiscuitsText;
     [SerializeField] private TextMeshProUGUI totalEnemiesKilledText;
     [SerializeField] private TextMeshProUGUI totalEarnedPintsText;
     [SerializeField] private TextMeshProUGUI totalStagesPassedText;
     [SerializeField] private TextMeshProUGUI totalRunsCompletedText;
 
+
+    private void Awake() {
+        closeButton.onClick.AddListener(() => {
+            Hide();
+        });
+    }
 
     private void Start() {
         Hide();
@@ -20,7 +31,7 @@ public class StatisticsUI : MonoBehaviour {
         totalEnemiesKilledText.text = $"Total Killed Enemies: {PlayerPrefs.GetInt(GameStatsTracker.TOTAL_ENEMIES_KILLED_PLAYER_PREFS)}";
         totalEarnedPintsText.text = $"Total Earned Pints: {PlayerPrefs.GetInt(GameStatsTracker.TOTAL_PINTS_EARNED_PLAYER_PREFS)}";
         totalStagesPassedText.text = $"Total Passed Stages: {PlayerPrefs.GetInt(GameStatsTracker.TOTAL_STAGES_PASSED_PLAYER_PREFS)}";
-        totalRunsCompletedText.text = $"Total Completed Runs: {PlayerPrefs.GetInt(GameStatsTracker.TOTAL_STAGES_PASSED_PLAYER_PREFS)}";
+        totalRunsCompletedText.text = $"Total Completed Runs: {PlayerPrefs.GetInt(GameStatsTracker.TOTAL_RUNS_COMPLETED_PLAYER_PREFS)}";
     }
 
     public void Show() {
