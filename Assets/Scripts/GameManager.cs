@@ -13,12 +13,20 @@ public class GameManager : MonoBehaviour {
     public static GameManager Instance { get; private set; }
 
 
-    public event EventHandler<OnScoreChangedEventArgs> OnScoreChanged;
-    public class OnScoreChangedEventArgs : EventArgs {
-        public int newScore;
+    public event EventHandler<OnTotalScoreChangedEventArgs> OnTotalBiscuitsAmountChanged;
+    public class OnTotalScoreChangedEventArgs : EventArgs {
+        public int newAmount;
 
-        public OnScoreChangedEventArgs(int newScore) {
-            this.newScore = newScore;
+        public OnTotalScoreChangedEventArgs(int newAmount) {
+            this.newAmount = newAmount;
+        }
+    } 
+    public event EventHandler<OnCurrentScoreChangedEventArgs> OnCurrentBiscuitsAmountChanged;
+    public class OnCurrentScoreChangedEventArgs : EventArgs {
+        public int newAmount;
+
+        public OnCurrentScoreChangedEventArgs(int newAmount) {
+            this.newAmount = newAmount;
         }
     }
 
@@ -39,7 +47,7 @@ public class GameManager : MonoBehaviour {
         totalEarnedBiscuitsScore = PlayerPrefs.GetInt(BISCUITS_EARNED_AMOUNT_PLAYER_PREFS, 0);
         totalEarnedPintsScore = PlayerPrefs.GetInt(PINTS_EARNED_AMOUNT_PLAYER_PREFS, 0);
 
-        OnScoreChanged?.Invoke(this, new OnScoreChangedEventArgs(currentBiscuitsScore));
+        OnCurrentBiscuitsAmountChanged?.Invoke(this, new OnCurrentScoreChangedEventArgs(currentBiscuitsScore));
     }
 
     private void Update() {
@@ -54,13 +62,24 @@ public class GameManager : MonoBehaviour {
 
         GameStatsTracker.BiscuitsEarned++;
 
-        OnScoreChanged?.Invoke(this, new OnScoreChangedEventArgs(currentBiscuitsScore));
+        OnCurrentBiscuitsAmountChanged?.Invoke(this, new OnCurrentScoreChangedEventArgs(currentBiscuitsScore));
     }
 
     public void AddPintToScore(int value) {
         currentPintsScore += value;
 
         GameStatsTracker.PintsEarned++;
+    }
+
+    public void SpendTotalBiscuits(int amount) {
+        if (totalEarnedBiscuitsScore - amount >= 0) {
+            totalEarnedBiscuitsScore -= amount;
+
+            // Save the amount of biscuits earned
+            PlayerPrefs.SetInt(BISCUITS_EARNED_AMOUNT_PLAYER_PREFS, totalEarnedBiscuitsScore);
+
+            OnTotalBiscuitsAmountChanged?.Invoke(this, new OnTotalScoreChangedEventArgs(totalEarnedBiscuitsScore));
+        }
     }
 
     public void StartNewRun() {
@@ -84,6 +103,8 @@ public class GameManager : MonoBehaviour {
         GameStageManager.Instance.CurrentRunStats.biscuitsEarned = currentBiscuitsScore;
         GameStageManager.Instance.CurrentRunStats.pintsEarned = currentPintsScore;
 
+        OnTotalBiscuitsAmountChanged?.Invoke(this, new OnTotalScoreChangedEventArgs(totalEarnedBiscuitsScore));
+
         PlayerPrefs.Save();
 
         GameStageManager.Instance.EndGame();
@@ -97,6 +118,8 @@ public class GameManager : MonoBehaviour {
 
         GameStageManager.Instance.CurrentRunStats.biscuitsEarned = currentBiscuitsScore;
         GameStageManager.Instance.CurrentRunStats.pintsEarned = currentPintsScore;
+
+        OnTotalBiscuitsAmountChanged?.Invoke(this, new OnTotalScoreChangedEventArgs(totalEarnedBiscuitsScore));
 
         GameStageManager.Instance.EndGame();
     }

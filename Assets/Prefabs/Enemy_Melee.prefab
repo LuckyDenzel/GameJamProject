@@ -200,7 +200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyRb: {fileID: 2547616644126910348}
-  moveSpeed: 15
+  moveSpeed: 10
   minDistanceFromPlayerBeforeMove: 2
   playerCollisionForceAmount: 20
   startDamage: 10

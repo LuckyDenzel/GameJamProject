@@ -7,7 +7,7 @@ public class ScoreUI : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI scoreTextReference;
 
     private void Start() {
-        GameManager.Instance.OnScoreChanged += GameManager_OnScoreChanged;
+        GameManager.Instance.OnCurrentBiscuitsAmountChanged += GameManager_OnScoreChanged;
 
         // Set the starting score to begin at zero
         scoreTextReference.text = "0";
@@ -15,8 +15,8 @@ public class ScoreUI : MonoBehaviour {
         Show();
     }
 
-    private void GameManager_OnScoreChanged(object sender, GameManager.OnScoreChangedEventArgs e) {
-        UpdateScoreText(e.newScore);
+    private void GameManager_OnScoreChanged(object sender, GameManager.OnCurrentScoreChangedEventArgs e) {
+        UpdateScoreText(e.newAmount);
     }
 
     public void UpdateScoreText(int currentScore) {
