@@ -113,4 +113,8 @@ public class Enemy_Logic : MonoBehaviour {
             enemyRb.linearVelocityX = -moveSpeed;
         }
     }
+
+    public bool IsFacingRight() {
+        return isFacingRight;
+    }
 }

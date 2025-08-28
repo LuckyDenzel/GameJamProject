@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour {
     private const string BISCUITS_EARNED_AMOUNT_PLAYER_PREFS = "SavedBiscuitsEarnedPlayerPrefs";
     private const string PINTS_EARNED_AMOUNT_PLAYER_PREFS = "SavedPintsEarnedPlayerPrefs";
 
+
     public static GameManager Instance { get; private set; }
 
 
@@ -20,6 +21,8 @@ public class GameManager : MonoBehaviour {
             this.newScore = newScore;
         }
     }
+
+    [SerializeField] private LayerMask playerLayerMask;
 
     private int currentBiscuitsScore = 0;
     private int currentPintsScore = 0;
@@ -112,5 +115,9 @@ public class GameManager : MonoBehaviour {
 
     public int GetTotalPintsScore() {
         return totalEarnedPintsScore;
+    }
+
+    public LayerMask GetPlayerLayerMask() {
+        return playerLayerMask;
     }
 }

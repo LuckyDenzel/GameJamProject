@@ -242,9 +242,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 8274969420373089822}
     m_Modifications:
     - target: {fileID: 184820000423024748, guid: dd3352a1431dba440828343b9c752dbe, type: 3}
+      propertyPath: startingRange
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 184820000423024748, guid: dd3352a1431dba440828343b9c752dbe, type: 3}
       propertyPath: ownerTransform
       value: 
       objectReference: {fileID: 8274969420373089822}
+    - target: {fileID: 184820000423024748, guid: dd3352a1431dba440828343b9c752dbe, type: 3}
+      propertyPath: startingFireRate
+      value: 2.5
+      objectReference: {fileID: 0}
     - target: {fileID: 184820000423024748, guid: dd3352a1431dba440828343b9c752dbe, type: 3}
       propertyPath: ownerLayerMask.m_Bits
       value: 64

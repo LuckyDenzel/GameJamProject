@@ -9,11 +9,11 @@ public class Weapon : MonoBehaviour {
     [SerializeField] private Transform ownerTransform;
 
     [Header("Properties")]
-    [SerializeField] private float fireRate = 1f;
+    [SerializeField] private float startingFireRate = 2f;
 
-    [SerializeField] private float range = 20f;
+    [SerializeField] private float startingRange = 20f;
 
-    [SerializeField] private float damage = 10f;
+    [SerializeField] private float startingDamage = 5f;
 
     [SerializeField] private int magazineSize = 20;
     [SerializeField] private int startingTotalAmmoAmount = 60;
@@ -22,6 +22,9 @@ public class Weapon : MonoBehaviour {
 
     private int currentTotalAmmoAmount;
     private int currentAmmoInMagazine;
+    private float currentFireRate;
+    private float currentRange;
+    private float currentDamage;
 
     private bool canReload;
 
@@ -32,12 +35,24 @@ public class Weapon : MonoBehaviour {
     private bool canShoot = true;
 
     // Fields
+    public float WeaponRange => currentRange;
     public int CurrentAmmoInMagazine => currentAmmoInMagazine;
     public bool CanShoot => canShoot;
 
+    public Transform MuzzleTransform => muzzleTransform;
+
     private void Start() {
+        GameStageManager.Instance.OnStageChanged += GameStageManager_OnStageChanged;
+
         currentTotalAmmoAmount = startingTotalAmmoAmount;
         currentAmmoInMagazine = magazineSize;
+        currentDamage = startingDamage;
+        currentFireRate = startingFireRate;
+        currentRange = startingRange;
+    }
+
+    private void GameStageManager_OnStageChanged(object sender, GameStageManager.OnStageChangedEventArgs e) {
+        ApplyThreatMultiplier(e.newGameStage.stageThreatsDamageMultiplier);
     }
 
     public void Shoot() {
@@ -54,7 +69,7 @@ public class Weapon : MonoBehaviour {
 
     private IEnumerator ResetShoot() {
 
-        yield return new WaitForSeconds(fireRate);
+        yield return new WaitForSeconds(currentFireRate);
 
         canShoot = true;
     }
@@ -72,7 +87,7 @@ public class Weapon : MonoBehaviour {
             BulletProjectile bulletProjectile = bulletProjectileGameObject.GetComponent<BulletProjectile>();
 
             bulletProjectile.AssignOwner(ownerTransform);
-            bulletProjectile.DefineDamageAmount(damage);
+            bulletProjectile.DefineDamageAmount(currentDamage);
             bulletProjectile.SetBulletDirection(Mathf.Sign(ownerTransform.localScale.x));
         }
     }
@@ -100,6 +115,14 @@ public class Weapon : MonoBehaviour {
 
             Invoke(nameof(ResetReload), reloadDuration);
         }
+    }
+
+    private void ApplyThreatMultiplier(float multiplier) {
+        currentDamage *= multiplier;
+        currentRange *= multiplier;
+
+        float inversedMultiplier = currentFireRate / multiplier;
+        currentFireRate *= inversedMultiplier;
     }
 
     private void ResetReload() {

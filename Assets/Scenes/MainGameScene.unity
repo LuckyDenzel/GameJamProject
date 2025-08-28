@@ -2763,6 +2763,9 @@ MonoBehaviour:
   - gameObject: {fileID: 7816530077670222560, guid: 369fcc17f2dca194c9e06740c278289e, type: 3}
     spawnDelay: 9
     currentTimer: 0
+  - gameObject: {fileID: 7816530077670222560, guid: 17d6a5cd0fe0ea94d9cebaeb68d15cc5, type: 3}
+    spawnDelay: 13
+    currentTimer: 0
   - gameObject: {fileID: 4051566189654469659, guid: d832bba0f057840499e2030bc4eead71, type: 3}
     spawnDelay: 6
     currentTimer: 0
@@ -2841,6 +2844,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40045649d491c914d999e732bf27bd7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!4 &1193715672
 Transform:
   m_ObjectHideFlags: 0
