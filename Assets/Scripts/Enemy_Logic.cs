@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Enemy_Logic : MonoBehaviour {
 
+
     [Header("References")]
     [SerializeField] private Rigidbody2D enemyRb;
 
@@ -19,6 +20,10 @@ public class Enemy_Logic : MonoBehaviour {
     [Tooltip("The damage the enemy deals to the player at the beginning of the run (Later in run gets heavier).")]
     [SerializeField] private int startDamage = 10;
 
+    [Header("Sound")]
+    [SerializeField] private AudioClip[] movementClipsAudioClipArray;
+    private AudioSource audioSource;
+
     private Vector2 currentPlayerPosition;
 
     private float playerPositionCheckTimer = 0.2f;
@@ -26,6 +31,11 @@ public class Enemy_Logic : MonoBehaviour {
 
     private bool isFacingRight;
     private bool previousIsFacingRight;
+
+
+    private void Awake() {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     private void Start() {
         GameStageManager.Instance.OnStageChanged += GameStageHandler_OnStageChanged;
@@ -86,6 +96,23 @@ public class Enemy_Logic : MonoBehaviour {
         if (isFacingRight != previousIsFacingRight) {
             TurnAround();
             previousIsFacingRight = isFacingRight;
+        }
+
+        if (enemyRb.linearVelocity != Vector2.zero) { // Check if the player is grounded and not standing still
+            if (!audioSource.isPlaying && !audioSource.loop) { // Check if the current audio source is playing anything else
+                int randomAudioClipIndex = Random.Range(0, movementClipsAudioClipArray.Length);
+
+                // Assign the random audio clip to the audio source
+                audioSource.clip = movementClipsAudioClipArray[randomAudioClipIndex];
+                audioSource.Play();
+            }
+
+            // Adjust the pitch based on the movement speed of the enemy
+            if (enemyRb.linearVelocityX >= moveSpeed || enemyRb.linearVelocityX <= -moveSpeed) {
+                audioSource.pitch = 2f;
+            } else {
+                audioSource.pitch = 1f;
+            }
         }
     }
 

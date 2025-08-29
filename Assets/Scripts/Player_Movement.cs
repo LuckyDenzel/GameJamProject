@@ -55,14 +55,16 @@ public class Player_Movement : MonoBehaviour {
 
         grounded = IsGrounded();
 
-        if (grounded && playerRb.linearVelocity != Vector2.zero) {
-            if (!audioSource.isPlaying && !audioSource.loop) {
+        if (grounded && playerRb.linearVelocity != Vector2.zero) { // Check if the player is grounded and not standing still
+            if (!audioSource.isPlaying && !audioSource.loop) { // Check if the current audio source is playing anything else
                 int randomAudioClipIndex = Random.Range(0, movementClipsAudioClipArray.Length);
 
+                // Assign the random audio clip to the audio source
                 audioSource.clip = movementClipsAudioClipArray[randomAudioClipIndex];
                 audioSource.Play();
             }
 
+            // Adjust the pitch based on the movement speed of the player
             if (playerRb.linearVelocityX >= moveSpeed && isMoving || playerRb.linearVelocityX <= -moveSpeed && isMoving) {
                 audioSource.pitch = 2f;
             } else {
