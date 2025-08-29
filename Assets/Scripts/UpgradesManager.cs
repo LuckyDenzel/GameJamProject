@@ -20,9 +20,12 @@ public class UpgradesManager : MonoBehaviour {
     }
 
     public void UpgradePlayerMoveSpeed(float amount) {
-
+        Player_Logic.PlayerMovementInstance.IncreasePlayerMoveSpeed(amount);
     }
 
+    public void UpgradePlayerStunDuration(float newDuration) {
+        Player_Logic.PlayerMovementInstance.SetNewStunDuration(newDuration);
+    }
 
     public void UpgradeRunExitTimeDelay(float amount) {
         GameManager.Instance.DecreaseRunExitTimeDelay(amount);

@@ -14,7 +14,7 @@ public class Enemy_Health : MonoBehaviour, IHealth {
     }
 
     public void AddHealth(int amount) {
-        if (CurrentHealth > 0) {
+        if (CurrentHealth > 0 && CurrentHealth + amount <= maxHealth) {
             CurrentHealth += amount;
         } else {
             Debug.LogError("You're trying to add health to an enemy, but the enemy is already dead. This should never happen!", this);

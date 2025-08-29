@@ -40,13 +40,17 @@ public class Player_Health : MonoBehaviour, IHealth {
         maxHealth = PlayerPrefs.GetInt(PLAYER_MAX_HEALTH_PLAYER_PREFS, maxHealth);
         startingHealth = PlayerPrefs.GetInt(PLAYER_STARTING_HEALTH_PLAYER_PREFS, startingHealth);
 
-        CurrentHealth = startingHealth;
+        if (startingHealth <= maxHealth) {
+            CurrentHealth = startingHealth;
+        } else {
+            Debug.LogError("The player starting health should never be higher than its max health!");
+        }
 
         OnHealthChanged?.Invoke(this, new OnHealthChangedEventArgs(CurrentHealth));
     }
 
     public void AddHealth(int amount) {
-        if (CurrentHealth > 0) {
+        if (CurrentHealth > 0 && CurrentHealth + amount <= maxHealth) {
             CurrentHealth += amount;
 
             OnHealthChanged?.Invoke(this, new OnHealthChangedEventArgs(CurrentHealth));

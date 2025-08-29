@@ -10,9 +10,6 @@ public class Enemy_Logic : MonoBehaviour {
     [Header("Values")]
     [SerializeField] private float moveSpeed = 2f;
 
-    [Tooltip("The minimum distance the enemy needs to be from the player to be able to move closer to the player.")]
-    [SerializeField] private float minDistanceFromPlayerBeforeMove = 2f;
-
     [Header("Player related")]
     [Tooltip("The force of the knockback the enemy deals to the player on collision.")]
     [SerializeField] private float playerCollisionForceAmount = 20f;

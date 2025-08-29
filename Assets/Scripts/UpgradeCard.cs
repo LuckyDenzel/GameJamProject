@@ -50,18 +50,20 @@ public class UpgradeCard : MonoBehaviour {
         }
         
         cardButton.onClick.AddListener(() => {
-            if (neededCurrency == Currency.Biscuit) {
-                if (GameManager.Instance.GetTotalBiscuitsScore() >= upgradeCost) {
-                    UnlockUpgrade();
-                } else {
-                    Debug.Log("Not enough currency!");
-                }
-            } else if (neededCurrency == Currency.BloodyBiscuit) {
-                // For now pints, later bloody cookies
-                if (GameManager.Instance.GetTotalPintsScore() >= upgradeCost) {
-                    UnlockUpgrade();
-                } else {
-                    Debug.Log("Not enough currency!");
+            if (!isUnlocked) {
+                if (neededCurrency == Currency.Biscuit) {
+                    if (GameManager.Instance.GetTotalBiscuitsScore() >= upgradeCost) {
+                        UnlockUpgrade();
+                    } else {
+                        Debug.Log("Not enough currency!");
+                    }
+                } else if (neededCurrency == Currency.BloodyBiscuit) {
+                    // For now pints, later bloody cookies
+                    if (GameManager.Instance.GetTotalPintsScore() >= upgradeCost) {
+                        UnlockUpgrade();
+                    } else {
+                        Debug.Log("Not enough currency!");
+                    }
                 }
             }
         });

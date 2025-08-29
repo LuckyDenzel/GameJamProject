@@ -4,6 +4,7 @@ public class Player_Movement : MonoBehaviour {
 
 
     private const string PLAYER_MOVE_SPEED_PLAYER_PREFS = "SavedPlayerMoveSpeedPlayerPrefs";
+    private const string PLAYER_STUNNED_PLAYER_PREFS = "SavedPlayerStunnedPlayerPrefs";
 
     [Header("References")]
     [SerializeField] private Rigidbody2D playerRb;
@@ -39,6 +40,7 @@ public class Player_Movement : MonoBehaviour {
 
     private void Start() {
         moveSpeed = PlayerPrefs.GetFloat(PLAYER_MOVE_SPEED_PLAYER_PREFS, moveSpeed);
+        stunnedDuration = PlayerPrefs.GetFloat(PLAYER_STUNNED_PLAYER_PREFS, stunnedDuration);
     }
 
     private void Update() {
@@ -140,6 +142,12 @@ public class Player_Movement : MonoBehaviour {
         moveSpeed += amount;
 
         PlayerPrefs.SetFloat(PLAYER_MOVE_SPEED_PLAYER_PREFS, moveSpeed);
+    }
+
+    public void SetNewStunDuration(float newDuration) {
+        stunnedDuration = newDuration;
+
+        PlayerPrefs.SetFloat(PLAYER_STUNNED_PLAYER_PREFS, stunnedDuration);
     }
 
     private void ClampVelocity() {
