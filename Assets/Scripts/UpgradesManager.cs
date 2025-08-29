@@ -10,11 +10,21 @@ public class UpgradesManager : MonoBehaviour {
         Instance = this;
     }
 
+    // Player related
     public void UpgradePlayerMaxHealth(int amount) {
         Player_Logic.PlayerHealthInstance.IncreasePlayerMaxHealthSaved(amount);
     }
 
     public void UpgradePlayerStartingHealth(int amount) {
         Player_Logic.PlayerHealthInstance.IncreasePlayerStartingHealthSaved(amount);
+    }
+
+    public void UpgradePlayerMoveSpeed(float amount) {
+
+    }
+
+
+    public void UpgradeRunExitTimeDelay(float amount) {
+        GameManager.Instance.DecreaseRunExitTimeDelay(amount);
     }
 }

@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour {
     public const string GROUND_TAG = "Ground";
     private const string BISCUITS_EARNED_AMOUNT_PLAYER_PREFS = "SavedBiscuitsEarnedPlayerPrefs";
     private const string PINTS_EARNED_AMOUNT_PLAYER_PREFS = "SavedPintsEarnedPlayerPrefs";
+    private const string RUN_EXIT_TIME_DELAY_PLAYER_PREFS = "SavedRunExitTimeDelayPlayerPrefs";
 
 
     public static GameManager Instance { get; private set; }
@@ -51,6 +52,7 @@ public class GameManager : MonoBehaviour {
     private void Start() {
         totalEarnedBiscuitsScore = PlayerPrefs.GetInt(BISCUITS_EARNED_AMOUNT_PLAYER_PREFS, 0);
         totalEarnedPintsScore = PlayerPrefs.GetInt(PINTS_EARNED_AMOUNT_PLAYER_PREFS, 0);
+        endRunExitTimerDelay = PlayerPrefs.GetFloat(RUN_EXIT_TIME_DELAY_PLAYER_PREFS, endRunExitTimerDelay);
 
         OnCurrentBiscuitsAmountChanged?.Invoke(this, new OnCurrentScoreChangedEventArgs(currentBiscuitsScore));
 
@@ -77,6 +79,8 @@ public class GameManager : MonoBehaviour {
 
                 // End the game when the user has succeeded holding the exit button for long enough
                 EndGameSuccesfully();
+
+                isExitingGame = false;
             }
         }
     }
@@ -146,6 +150,18 @@ public class GameManager : MonoBehaviour {
         OnTotalBiscuitsAmountChanged?.Invoke(this, new OnTotalScoreChangedEventArgs(totalEarnedBiscuitsScore));
 
         GameStageManager.Instance.EndGame();
+    }
+
+    public void DecreaseRunExitTimeDelay(float amount) {
+        Debug.Log($"Attempting to decrease by {amount}. Current value: {endRunExitTimerDelay}");
+
+        if (endRunExitTimerDelay - amount >= 0) {
+            endRunExitTimerDelay -= amount;
+
+            PlayerPrefs.SetFloat(RUN_EXIT_TIME_DELAY_PLAYER_PREFS, endRunExitTimerDelay);
+        } else {
+            Debug.LogError("You can't set the exit time to a negative number!");
+        }
     }
 
     public int GetCurrentBiscuitsScore() {

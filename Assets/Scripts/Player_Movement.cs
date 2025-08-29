@@ -3,6 +3,8 @@ using UnityEngine;
 public class Player_Movement : MonoBehaviour {
 
 
+    private const string PLAYER_MOVE_SPEED_PLAYER_PREFS = "SavedPlayerMoveSpeedPlayerPrefs";
+
     [Header("References")]
     [SerializeField] private Rigidbody2D playerRb;
 
@@ -19,10 +21,10 @@ public class Player_Movement : MonoBehaviour {
     private float playerHeight = 1f;
 
     // Timers
-    private float knockBackTimer;
-    private float knockBackDuration = 0.2f;
+    private float stunnedTimer;
+    private float stunnedDuration = 0.3f;
 
-    private bool isBeingKnockedBack = false;
+    private bool isStunned = false;
 
     // Other
     private bool isFacingRight;
@@ -35,14 +37,16 @@ public class Player_Movement : MonoBehaviour {
     public bool IsFacingRight => isFacingRight;
 
 
+    private void Start() {
+        moveSpeed = PlayerPrefs.GetFloat(PLAYER_MOVE_SPEED_PLAYER_PREFS, moveSpeed);
+    }
+
     private void Update() {
+        if (isStunned) {
+            stunnedTimer -= Time.deltaTime;
 
-
-        if (isBeingKnockedBack) {
-            knockBackTimer -= Time.deltaTime;
-
-            if (knockBackTimer <= 0f) {
-                isBeingKnockedBack = false;
+            if (stunnedTimer <= 0f) {
+                isStunned = false;
             }
 
             // Disable jumping until the knockback is over
@@ -74,7 +78,7 @@ public class Player_Movement : MonoBehaviour {
     }
 
     private void FixedUpdate() {
-        if (!isBeingKnockedBack) {
+        if (!isStunned) {
             Move();
             ClampVelocity();
         }
@@ -127,9 +131,15 @@ public class Player_Movement : MonoBehaviour {
         canJump = true;
     }
 
-    public void ApplyKnockbackToPlayer() {
-        isBeingKnockedBack = true;
-        knockBackTimer = knockBackDuration;
+    public void StunPlayer() {
+        isStunned = true;
+        stunnedTimer = stunnedDuration;
+    }
+
+    public void IncreasePlayerMoveSpeed(float amount) {
+        moveSpeed += amount;
+
+        PlayerPrefs.SetFloat(PLAYER_MOVE_SPEED_PLAYER_PREFS, moveSpeed);
     }
 
     private void ClampVelocity() {

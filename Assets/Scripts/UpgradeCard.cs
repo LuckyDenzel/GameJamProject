@@ -34,21 +34,21 @@ public class UpgradeCard : MonoBehaviour {
     }
 
     private void Awake() {
+        cardButton = GetComponent<Button>();
+
         if (GetPlayerPrefsKey == string.Empty) Debug.LogError("No UpgradeID was entered!", this);
         isUnlocked = PlayerPrefs.GetInt(GetPlayerPrefsKey, 0) == 1;
 
         if (!isUnlocked) {
             currencyText.text = upgradeCost.ToString();
-        } else {
-            if (cardToRevealAfterUpgradeTransformsArray != null) {
-                foreach (var card in cardToRevealAfterUpgradeTransformsArray) {
-                    card.gameObject.SetActive(true);
-                }
-            }
         }
 
-        cardButton = GetComponent<Button>();
-
+        if (cardToRevealAfterUpgradeTransformsArray != null) {
+            foreach (var card in cardToRevealAfterUpgradeTransformsArray) {
+                card.gameObject.SetActive(isUnlocked);
+            }
+        }
+        
         cardButton.onClick.AddListener(() => {
             if (neededCurrency == Currency.Biscuit) {
                 if (GameManager.Instance.GetTotalBiscuitsScore() >= upgradeCost) {

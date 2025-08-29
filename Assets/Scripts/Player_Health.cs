@@ -62,6 +62,9 @@ public class Player_Health : MonoBehaviour, IHealth {
             Die();
         }
 
+        // Make the player unable to move for a certain duration
+        Player_Logic.PlayerMovementInstance.StunPlayer();
+
         OnHealthChanged?.Invoke(this, new OnHealthChangedEventArgs(CurrentHealth));
     }
 
