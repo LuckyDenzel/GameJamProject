@@ -1806,7 +1806,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectsToSpawnList:
   - gameObject: {fileID: 68592742271266757, guid: 053a6ad22be997d4382915d2df7a5107, type: 3}
-    spawnDelay: 10
+    spawnDelay: 6
     currentTimer: 0
   - gameObject: {fileID: 6013622871501398939, guid: fc84eb267efaac74dbaef45d2b738f96, type: 3}
     spawnDelay: 6

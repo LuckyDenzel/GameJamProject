@@ -7,6 +7,9 @@ public class Explosive : MonoBehaviour {
     [Header("References")]
     [SerializeField] private Rigidbody2D eplosiveRb;
     [SerializeField] private ParticleSystem explosionParticleSystem;
+    [SerializeField] private Transform explosiveModelTransform;
+
+    private Collider2D explosiveCollider;
 
     [Header("Values")]
     [SerializeField] private float startingExplosionRadius = 3f;
@@ -16,11 +19,22 @@ public class Explosive : MonoBehaviour {
 
     [SerializeField] private float explosionLifetimeDuration = 7f;
 
+    [Header("Sound")]
+    [SerializeField] private AudioClip explosionAudioClip;
+
+    private AudioSource audioSource;
+
     private float currentExplosionRadius;
     private float currentExplosionDamage;
     private float currentExplosionDownwardForce;
 
     private bool hasExploded;
+
+    private void Awake() {
+        audioSource = GetComponent<AudioSource>();
+
+        explosiveCollider = GetComponent<Collider2D>();
+    }
 
     private void Start() {
         GameStageManager.Instance.OnStageChanged += GameStageHandler_OnStageChanged;
@@ -67,13 +81,22 @@ public class Explosive : MonoBehaviour {
                     objectRb.AddForce(forceDirection, ForceMode2D.Impulse);
                 }
             }
+
+            if (audioSource.clip != explosionAudioClip) {
+                audioSource.clip = explosionAudioClip;
+            }
+
+            audioSource.Play();
         }
 
         explosionParticleSystem.gameObject.SetActive(true);
         explosionParticleSystem.Play();
 
+        explosiveCollider.enabled = false;
+        explosiveModelTransform.gameObject.SetActive(false);
+
         // Handle deletion of this object, later store in a pooler
-        Destroy(gameObject);
+        Destroy(gameObject, 2f);
 
         // Handle deletion of the explosion particle system
         StartCoroutine(HandleExplosionLifetime());

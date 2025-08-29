@@ -32,6 +32,11 @@ public class Weapon : MonoBehaviour {
     [SerializeField] private GameObject muzzleFlashGameObject;
     [SerializeField] private GameObject bulletProjectileGameObject;
 
+    [Header("Sound")]
+    [SerializeField] private AudioClip gunShotAudioClip;
+
+    private AudioSource audioSource;
+
     private bool canShoot = true;
 
     // Fields
@@ -40,6 +45,10 @@ public class Weapon : MonoBehaviour {
     public bool CanShoot => canShoot;
 
     public Transform MuzzleTransform => muzzleTransform;
+
+    private void Awake() {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     private void Start() {
         GameStageManager.Instance.OnStageChanged += GameStageManager_OnStageChanged;
@@ -62,6 +71,12 @@ public class Weapon : MonoBehaviour {
             currentAmmoInMagazine--;
 
             HandleVisuals();
+
+            if (audioSource.clip != gunShotAudioClip) {
+                audioSource.clip = gunShotAudioClip;
+            }
+
+            audioSource.Play();
 
             StartCoroutine(ResetShoot());
         }
