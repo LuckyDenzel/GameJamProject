@@ -3,11 +3,16 @@ using UnityEngine;
 public class Player_Movement : MonoBehaviour {
 
 
+    [Header("References")]
     [SerializeField] private Rigidbody2D playerRb;
 
+    [Header("Values")]
     [SerializeField] private float moveSpeed = 2f;
     [SerializeField] private float jumpForce = 10f;
 
+    [Header("Sound")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip[] movementClipsAudioClipArray;
 
     [SerializeField] private LayerMask groundLayerMask;
 
@@ -21,6 +26,7 @@ public class Player_Movement : MonoBehaviour {
 
     // Other
     private bool isFacingRight;
+    private bool isMoving;
 
     private bool grounded;
     private bool canJump = true;
@@ -48,6 +54,21 @@ public class Player_Movement : MonoBehaviour {
         }
 
         grounded = IsGrounded();
+
+        if (grounded && playerRb.linearVelocity != Vector2.zero) {
+            if (!audioSource.isPlaying && !audioSource.loop) {
+                int randomAudioClipIndex = Random.Range(0, movementClipsAudioClipArray.Length);
+
+                audioSource.clip = movementClipsAudioClipArray[randomAudioClipIndex];
+                audioSource.Play();
+            }
+
+            if (playerRb.linearVelocityX >= moveSpeed && isMoving || playerRb.linearVelocityX <= -moveSpeed && isMoving) {
+                audioSource.pitch = 2f;
+            } else {
+                audioSource.pitch = 1f;
+            }
+        }
     }
 
     private void FixedUpdate() {
@@ -72,13 +93,21 @@ public class Player_Movement : MonoBehaviour {
             playerRb.AddForce(forceDirection, ForceMode2D.Force);
 
             isFacingRight = false;
+            isMoving = true;
+
+            return;
         }
         if (Input.GetKey(KeyCode.D)) {
             Vector2 forceDirection = new Vector2(moveSpeed, 0);
             playerRb.AddForce(forceDirection, ForceMode2D.Force);
 
             isFacingRight = true;
+            isMoving = true;
+
+            return;
         }
+
+        isMoving = false;
     }
 
     private void Jump() {

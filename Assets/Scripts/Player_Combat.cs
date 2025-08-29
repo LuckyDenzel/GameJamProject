@@ -12,7 +12,7 @@ public class Player_Combat : MonoBehaviour {
     [SerializeField] private LayerMask enemyLayerMask;
 
     [SerializeField] private AudioClip meleeAttackAudioClip;
-    private AudioSource audioSource;
+    [SerializeField] private AudioSource audioSource;
 
     private float closestEnemyCheckTimer;
     private float closestEnemyCheckTimerDuration = 0.2f;
@@ -21,10 +21,6 @@ public class Player_Combat : MonoBehaviour {
 
     private Collider2D currentClosestEnemy;
     private Collider2D[] currentClosestEnemiesArray;
-
-    private void Awake() {
-        audioSource = GetComponent<AudioSource>();
-    }
 
     private void Update() {
         // Save performance by checking every 0.2 seconds for enemies instead of every frame
