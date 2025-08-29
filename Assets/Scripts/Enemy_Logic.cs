@@ -59,9 +59,6 @@ public class Enemy_Logic : MonoBehaviour {
     private void OnCollisionEnter2D(Collision2D collision) {
         // Add a bounce back force to the player when the enemy hits the player
         if (collision.transform.CompareTag(Player_Logic.PLAYER_TAG)) {
-            // Call the ApplyKnockbackToPlayer method on the player movement class
-            Player_Logic.PlayerMovementInstance.ApplyKnockbackToPlayer();
-
             // Deal damage to the player
             DealDamageToPlayer(Player_Logic.PlayerHealthInstance);
 
@@ -69,7 +66,7 @@ public class Enemy_Logic : MonoBehaviour {
             Vector2 forceDirection = (transform.position - collision.transform.position).normalized * playerCollisionForceAmount;
 
             // Apply the calculated force direction to the rigidbody of the player
-            collision.transform.GetComponent<Rigidbody2D>().AddForce(-forceDirection, ForceMode2D.Impulse);
+            collision.rigidbody.AddForce(-forceDirection, ForceMode2D.Impulse);
         }
     }
 

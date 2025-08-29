@@ -7,6 +7,7 @@ public class Player_Combat : MonoBehaviour {
 
     [SerializeField] private int meleeAttackDamage = 60;
     [SerializeField] private float meleeAttackRange = 3f;
+    [SerializeField] private float meleeAttackStrength = 2f;
 
     [SerializeField] private LayerMask enemyLayerMask;
 
@@ -58,6 +59,10 @@ public class Player_Combat : MonoBehaviour {
 
     private void PerformMeleeAttack(Enemy_Health enemyToAttack) {
         enemyToAttack.ApplyDamage(meleeAttackDamage);
+
+        // Apply a knockback to the hit enemy
+        Vector2 forceDirection = (transform.position - enemyToAttack.transform.position).normalized * meleeAttackStrength;
+        enemyToAttack.GetComponent<Rigidbody2D>().AddForce(-forceDirection, ForceMode2D.Impulse);
     }
 
     private bool IsEnemyClose() {

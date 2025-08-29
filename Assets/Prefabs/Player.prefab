@@ -164,6 +164,7 @@ MonoBehaviour:
   playerMovement: {fileID: 5888247017837561163}
   meleeAttackDamage: 60
   meleeAttackRange: 3
+  meleeAttackStrength: 20
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 64
