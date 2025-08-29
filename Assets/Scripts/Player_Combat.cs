@@ -11,6 +11,9 @@ public class Player_Combat : MonoBehaviour {
 
     [SerializeField] private LayerMask enemyLayerMask;
 
+    [SerializeField] private AudioClip meleeAttackAudioClip;
+    private AudioSource audioSource;
+
     private float closestEnemyCheckTimer;
     private float closestEnemyCheckTimerDuration = 0.2f;
 
@@ -18,6 +21,10 @@ public class Player_Combat : MonoBehaviour {
 
     private Collider2D currentClosestEnemy;
     private Collider2D[] currentClosestEnemiesArray;
+
+    private void Awake() {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     private void Update() {
         // Save performance by checking every 0.2 seconds for enemies instead of every frame
@@ -34,8 +41,9 @@ public class Player_Combat : MonoBehaviour {
         }
 
         // Listen to melee input
-        if (currentClosestEnemy != null) {
-            if (Input.GetKeyDown(KeyCode.Mouse0)) {
+        if (Input.GetKeyDown(KeyCode.Mouse0)) {
+
+            if (currentClosestEnemy != null) {
                 currentClosestEnemy.TryGetComponent<Enemy_Health>(out Enemy_Health enemyHealth);
 
                 // Calculate if the enemy will be dead or not from the attack
@@ -54,6 +62,12 @@ public class Player_Combat : MonoBehaviour {
                     GameManager.Instance.AddPintToScore(1);
                 }
             }
+
+            if (audioSource.clip != meleeAttackAudioClip) {
+                audioSource.clip = meleeAttackAudioClip;
+            }
+
+            audioSource.Play();
         }
     }
 
