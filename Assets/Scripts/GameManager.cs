@@ -38,6 +38,11 @@ public class GameManager : MonoBehaviour {
     private int totalEarnedBiscuitsScore;
     private int totalEarnedPintsScore;
 
+    private float endRunExitTimer;
+    private float endRunExitTimerDelay = 5;
+
+    private bool isExitingGame;
+
 
     private void Awake() {
         Instance = this;
@@ -48,12 +53,31 @@ public class GameManager : MonoBehaviour {
         totalEarnedPintsScore = PlayerPrefs.GetInt(PINTS_EARNED_AMOUNT_PLAYER_PREFS, 0);
 
         OnCurrentBiscuitsAmountChanged?.Invoke(this, new OnCurrentScoreChangedEventArgs(currentBiscuitsScore));
+
+        endRunExitTimer = endRunExitTimerDelay;
     }
 
     private void Update() {
         if (Input.GetKeyDown(KeyCode.V)) {
-            // Disable all the stage handling
-            EndGameSuccesfully();
+            isExitingGame = true;
+        }
+
+        if (isExitingGame) {
+            if (Input.GetKeyUp(KeyCode.V)) {
+                isExitingGame = false;
+                Debug.Log("Canceled");
+
+                return;
+            }
+
+            endRunExitTimer -= Time.deltaTime;
+
+            if (endRunExitTimer <= 0) {
+                endRunExitTimer = endRunExitTimerDelay;
+
+                // End the game when the user has succeeded holding the exit button for long enough
+                EndGameSuccesfully();
+            }
         }
     }
 
