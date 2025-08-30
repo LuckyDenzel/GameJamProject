@@ -15,14 +15,24 @@ public class GameUpgradesUI : MonoBehaviour {
     [SerializeField] private Button newRunButton;
     [SerializeField] private Button statisticsButton;
 
+    [Header("Animation")]
+    [SerializeField] private AnimationClip popInAnimationClip;
+    [SerializeField] private AnimationClip popOutAnimationClip;
+
+    private Animator animator;
+
 
     private void Awake() {
+        animator = GetComponent<Animator>();
+
         statisticsButton.onClick.AddListener(() => {
             statisticsUI.Show();
         });
         newRunButton.onClick.AddListener(() => {
-            GameManager.Instance.StartNewRun();
+            animator.Play(popOutAnimationClip.name);
         });
+
+        animator.updateMode = AnimatorUpdateMode.UnscaledTime;
     }
 
     private void Start() {
@@ -41,9 +51,15 @@ public class GameUpgradesUI : MonoBehaviour {
         biscuitsAmountText.text = $": {GameManager.Instance.GetTotalBiscuitsScore()}";
 
         gameObject.SetActive(true);
+
+        animator.Play(popInAnimationClip.name);
     }
 
     private void Hide() {
         gameObject.SetActive(false);
+    }
+
+    public void PopOutAnimationCallback() {
+        GameManager.Instance.StartNewRun();
     }
 }

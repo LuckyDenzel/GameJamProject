@@ -149,7 +149,7 @@ public class GameManager : MonoBehaviour {
 
         PlayerPrefs.Save();
 
-        GameStageManager.Instance.EndGame();
+        GameStageManager.Instance.EndGame(true);
     }
 
     public void EndGameFailed() {
@@ -163,7 +163,7 @@ public class GameManager : MonoBehaviour {
 
         OnTotalBiscuitsAmountChanged?.Invoke(this, new OnTotalScoreChangedEventArgs(totalEarnedBiscuitsScore));
 
-        GameStageManager.Instance.EndGame();
+        GameStageManager.Instance.EndGame(false);
     }
 
     public void DecreaseRunExitTimeDelay(float amount) {

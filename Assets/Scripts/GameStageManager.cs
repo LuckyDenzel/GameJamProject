@@ -45,9 +45,10 @@ public class GameStageManager : MonoBehaviour {
     private void Start() {
         // Initialize the run stats
         currentRunStats = new GameRunStats(
-            GameManager.Instance.GetCurrentBiscuitsScore(), 
-            GameManager.Instance.GetCurrentPintsScore(), 
-            Player_Logic.PlayerCombatIntance.GetCurrentEnemiesKilledAmount()
+            GameManager.Instance.GetCurrentBiscuitsScore(),
+            GameManager.Instance.GetCurrentPintsScore(),
+            Player_Logic.PlayerCombatIntance.GetCurrentEnemiesKilledAmount(),
+            false
         );
     }
 
@@ -79,8 +80,9 @@ public class GameStageManager : MonoBehaviour {
         OnStageChanged?.Invoke(this, new OnStageChangedEventArgs(currentStage));
     }
 
-    public void EndGame() {
+    public void EndGame(bool hasSucceeded) {
         hasGameEnded = true;
+        currentRunStats.gameSucceeded = hasSucceeded;
 
         GameEndResultUI.Instance.ShowGameEndResultStats(currentRunStats);
         GameStatsTracker.TotalRunsCompleted++;

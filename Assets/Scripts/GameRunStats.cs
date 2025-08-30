@@ -7,10 +7,13 @@ public class GameRunStats {
     public int enemiesKilled;
     public int pintsEarned;
 
+    public bool gameSucceeded;
 
-    public GameRunStats(int biscuitsEarned, int enemiesKilled, int pintsEarned) { 
+
+    public GameRunStats(int biscuitsEarned, int enemiesKilled, int pintsEarned, bool gameSucceeded) { 
         this.biscuitsEarned = biscuitsEarned;
         this.pintsEarned = pintsEarned;
         this.enemiesKilled = enemiesKilled;
+        this.gameSucceeded = gameSucceeded;
     }
 }

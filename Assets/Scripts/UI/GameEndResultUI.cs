@@ -11,6 +11,8 @@ public class GameEndResultUI : MonoBehaviour {
     [SerializeField] private GameUpgradesUI upgradesUI;
 
     [Header("Text References")]
+    [SerializeField] private TextMeshProUGUI gameOverText;
+
     [SerializeField] private TextMeshProUGUI biscuitsEarnedAmountText;
     [SerializeField] private TextMeshProUGUI totalEarnedPintsText;
 
@@ -41,6 +43,8 @@ public class GameEndResultUI : MonoBehaviour {
 
     public void ShowGameEndResultStats(GameRunStats gameRunStats) {
         Show();
+
+        gameOverText.color = gameRunStats.gameSucceeded ? Color.green : Color.red;
 
         biscuitsEarnedAmountText.text = $"Total Earned Biscuits: {gameRunStats.biscuitsEarned}";
         totalEarnedPintsText.text = $"Total Earned Pints: {gameRunStats.pintsEarned}";
