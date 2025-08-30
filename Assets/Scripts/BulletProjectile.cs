@@ -1,7 +1,10 @@
+using LuckyGamezLib;
 using UnityEngine;
 
 public class BulletProjectile : MonoBehaviour {
 
+
+    private const string BULLET_PROJECTILES_OBJECT_POOL_ID = "BulletProjectilesObjectPool";
 
     [SerializeField] private Rigidbody2D bulletRb;
 
@@ -42,8 +45,8 @@ public class BulletProjectile : MonoBehaviour {
             if (collision.transform.TryGetComponent<IHealth>(out IHealth objectHealthComponent)) {
                 objectHealthComponent.ApplyDamage(Mathf.RoundToInt(damageAmount));
 
-                // For now destroy the bullet, later use a pooler
-                Destroy(gameObject);
+                // Return the object to the object pooler
+                CentralObjectPooler.Instance.ReturnObjectToPool(BULLET_PROJECTILES_OBJECT_POOL_ID, gameObject);
             }
         }
     }

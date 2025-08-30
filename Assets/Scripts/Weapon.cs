@@ -1,8 +1,11 @@
+using LuckyGamezLib;
 using System.Collections;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour {
 
+
+    private const string BULLET_PROJECTILES_OBJECT_POOL_ID = "BulletProjectilesObjectPool";
 
     [Header("References")]
     [SerializeField] private Transform muzzleTransform;
@@ -53,6 +56,9 @@ public class Weapon : MonoBehaviour {
     private void Start() {
         GameStageManager.Instance.OnStageChanged += GameStageManager_OnStageChanged;
 
+        // Instantiate all the needed bullet projectiles for object pooling
+        CentralObjectPooler.Instance.CreateNewPool(BULLET_PROJECTILES_OBJECT_POOL_ID, bulletProjectileGameObject, 30);
+
         currentTotalAmmoAmount = startingTotalAmmoAmount;
         currentAmmoInMagazine = magazineSize;
         currentDamage = startingDamage;
@@ -96,8 +102,10 @@ public class Weapon : MonoBehaviour {
         }
 
         if (bulletProjectileGameObject != null) {
-            // For now use instantiate. later use an object pooler
-            GameObject bulletProjectileGameObject = Instantiate(this.bulletProjectileGameObject, muzzleTransform.position, Quaternion.identity);
+            // Use a bullet projectile from the object pooler pool
+            GameObject bulletProjectileGameObject = CentralObjectPooler.Instance.UseObjectFromPool(BULLET_PROJECTILES_OBJECT_POOL_ID,
+                muzzleTransform.position, Quaternion.identity
+            );
 
             BulletProjectile bulletProjectile = bulletProjectileGameObject.GetComponent<BulletProjectile>();
 
