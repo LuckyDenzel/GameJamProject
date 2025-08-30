@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 5888247017837561163}
   - component: {fileID: 2549077903921034908}
   - component: {fileID: 3811117586172193456}
+  - component: {fileID: 4636643460605449303}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -375,6 +376,22 @@ MonoBehaviour:
   swordAnimator: {fileID: 3159071144302552725}
   meleeAttackAudioClip: {fileID: 8300000, guid: abdd2f80b57d94f4087fc3f6d9afd3fc, type: 3}
   audioSource: {fileID: 7127043131849756660}
+--- !u!114 &4636643460605449303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3655762948267377572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5439388233d39045baeefade7a7f20e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  swordAnimator: {fileID: 3159071144302552725}
+  playerIdleAnimationClip: {fileID: 7400000, guid: a661c717757a4cd46bfc72564e219cb2, type: 2}
+  playerWalkingAnimationClip: {fileID: 7400000, guid: 855a7091319b1da469ec9675401c9af4, type: 2}
+  playerRunningAnimationClip: {fileID: 7400000, guid: f7b938611a1ad9c4380dc56b904fe694, type: 2}
 --- !u!1 &4750291199831277472
 GameObject:
   m_ObjectHideFlags: 0

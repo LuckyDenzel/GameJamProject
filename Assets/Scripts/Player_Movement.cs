@@ -19,6 +19,8 @@ public class Player_Movement : MonoBehaviour {
 
     [SerializeField] private LayerMask groundLayerMask;
 
+    private MovementState movementState;
+
     private float playerHeight = 1f;
 
     // Timers
@@ -39,6 +41,12 @@ public class Player_Movement : MonoBehaviour {
     // Field
     public bool IsFacingRight => isFacingRight;
 
+    public enum MovementState {
+        Idle,
+        Walking,
+        Running,
+        Air
+    }
 
     private void Start() {
         moveSpeed = PlayerPrefs.GetFloat(PLAYER_MOVE_SPEED_PLAYER_PREFS, moveSpeed);
@@ -66,6 +74,7 @@ public class Player_Movement : MonoBehaviour {
         grounded = IsGrounded();
 
         HandleSound();
+        HandleMovementState();
     }
 
     private void FixedUpdate() {
@@ -140,6 +149,13 @@ public class Player_Movement : MonoBehaviour {
         }
     }
 
+    private void HandleMovementState() {
+        if (playerRb.linearVelocityX == 0f && IsGrounded()) movementState = MovementState.Idle;
+        else if (playerRb.linearVelocityX >= moveSpeed && IsGrounded()|| playerRb.linearVelocityX <= -moveSpeed && IsGrounded()) movementState = MovementState.Running;
+        else if (playerRb.linearVelocityX < moveSpeed && IsGrounded() || playerRb.linearVelocityX > -moveSpeed && IsGrounded()) movementState = MovementState.Walking;
+        else movementState = MovementState.Air;
+    }
+
     private void TurnAround() {
         Vector3 scale = transform.localScale;
         scale.x *= -1;
@@ -185,5 +201,9 @@ public class Player_Movement : MonoBehaviour {
         else if (playerRb.linearVelocityX < -moveSpeed) {
             playerRb.linearVelocityX = -moveSpeed;
         }
+    }
+
+    public MovementState GetPlayerMovementState() {
+        return movementState;
     }
 }
