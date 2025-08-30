@@ -23,7 +23,9 @@ public class ArrowProjectile : MonoBehaviour {
     }
 
     private void Start() {
-        GameStageManager.Instance.OnStageChanged += GameStageHandler_OnStageChanged;
+        if (GameStageManager.Instance != null) {
+            GameStageManager.Instance.OnStageChanged += GameStageHandler_OnStageChanged;
+        }
 
         arrowRb.centerOfMass = new Vector2(0, -0.6f);
 

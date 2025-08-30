@@ -18,7 +18,9 @@ public class CollectableBiscuit : MonoBehaviour {
     }
 
     private void Start() {
-        GameStageManager.Instance.OnStageChanged += GameStageHandler_OnStageChanged;
+        if (GameStageManager.Instance != null) {
+            GameStageManager.Instance.OnStageChanged += GameStageHandler_OnStageChanged;
+        }
 
         currentBiscuitPickupValue = startBiscuitPickupValue;
     }

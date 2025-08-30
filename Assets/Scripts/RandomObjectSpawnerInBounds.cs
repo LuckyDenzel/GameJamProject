@@ -16,7 +16,9 @@ public class RandomObjectSpawnerInBounds : MonoBehaviour {
     }
 
     private void Start() {
-        GameStageManager.Instance.OnStageChanged += GameStageHandler_OnStageChanged;
+        if (GameStageManager.Instance != null) {
+            GameStageManager.Instance.OnStageChanged += GameStageHandler_OnStageChanged;
+        }
     }
 
     // Increase the multiplier on the values of the objects

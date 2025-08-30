@@ -15,31 +15,36 @@ public class Player_Animations : MonoBehaviour {
 
     private Player_Movement playerMovement;
 
+    private bool isIdle, isWalking, isRunning;
+
+    private bool wasIdle, wasWalking, wasRunning;
+
 
     private void Awake() {
         playerMovement = GetComponent<Player_Movement>();
     }
 
     private void Update() {
-        if (playerMovement.GetPlayerMovementState() == Player_Movement.MovementState.Idle) { 
-            swordAnimator.SetBool(PLAYER_IDLE_ANIMATION_STATE_BOOL, true); 
+        isIdle = playerMovement.GetPlayerMovementState() == Player_Movement.MovementState.Idle;
+        isWalking = playerMovement.GetPlayerMovementState() == Player_Movement.MovementState.Walking;
+        isRunning = playerMovement.GetPlayerMovementState() == Player_Movement.MovementState.Running;
 
-            swordAnimator.SetBool(PLAYER_WALKING_ANIMATION_STATE_BOOL, false); 
-            swordAnimator.SetBool(PLAYER_RUNNING_ANIMATION_STATE_BOOL, false); 
-        } else if (playerMovement.GetPlayerMovementState() == Player_Movement.MovementState.Walking) {
-            swordAnimator.SetBool(PLAYER_WALKING_ANIMATION_STATE_BOOL, true);
+        if (wasIdle != isIdle) {
+            swordAnimator.SetBool(PLAYER_IDLE_ANIMATION_STATE_BOOL, isIdle);
 
-            swordAnimator.SetBool(PLAYER_IDLE_ANIMATION_STATE_BOOL, false); 
-            swordAnimator.SetBool(PLAYER_RUNNING_ANIMATION_STATE_BOOL, false); 
-        } else if (playerMovement.GetPlayerMovementState() == Player_Movement.MovementState.Running) {
-            swordAnimator.SetBool(PLAYER_RUNNING_ANIMATION_STATE_BOOL, true);
+            wasIdle = isIdle;
+        }
 
-            swordAnimator.SetBool(PLAYER_IDLE_ANIMATION_STATE_BOOL, false); 
-            swordAnimator.SetBool(PLAYER_WALKING_ANIMATION_STATE_BOOL, false); 
-        } else if (playerMovement.GetPlayerMovementState() == Player_Movement.MovementState.Air) {
-            swordAnimator.SetBool(PLAYER_IDLE_ANIMATION_STATE_BOOL, false);
-            swordAnimator.SetBool(PLAYER_WALKING_ANIMATION_STATE_BOOL, false);
-            swordAnimator.SetBool(PLAYER_RUNNING_ANIMATION_STATE_BOOL, false);
+        if (wasWalking != isWalking) {
+            swordAnimator.SetBool(PLAYER_WALKING_ANIMATION_STATE_BOOL, isWalking);
+
+            wasWalking = isWalking;
+        }
+
+        if (wasRunning != isRunning) {
+            swordAnimator.SetBool(PLAYER_RUNNING_ANIMATION_STATE_BOOL, isRunning);
+
+            wasRunning = isRunning;
         }
     }
 }

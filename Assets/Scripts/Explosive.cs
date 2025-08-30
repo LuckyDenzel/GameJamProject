@@ -37,7 +37,9 @@ public class Explosive : MonoBehaviour {
     }
 
     private void Start() {
-        GameStageManager.Instance.OnStageChanged += GameStageHandler_OnStageChanged;
+        if (GameStageManager.Instance != null) {
+            GameStageManager.Instance.OnStageChanged += GameStageHandler_OnStageChanged;
+        }
 
         explosionParticleSystem.gameObject.SetActive(false);
 
