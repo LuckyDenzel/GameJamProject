@@ -48,6 +48,10 @@ public class Explosive : MonoBehaviour {
 
     private void FixedUpdate() {
         eplosiveRb.AddForce(Vector2.down * currentExplosionDownwardForce, ForceMode2D.Force);
+
+        if (!hasExploded) {
+            transform.Rotate(0, 0, 1 * Time.deltaTime);
+        }
     }
 
     // Listen to the OnStageChanged event to apply the current stage's multiplier to the current damage
@@ -64,6 +68,9 @@ public class Explosive : MonoBehaviour {
     }
 
     private void Explode() {
+        // Reset the rotation to zero so that the explosion also happens with the right rotation
+        transform.rotation = Quaternion.identity;
+
         Collider2D[] objectColliders = Physics2D.OverlapCircleAll(transform.position, currentExplosionRadius);
 
         if (objectColliders != null) {

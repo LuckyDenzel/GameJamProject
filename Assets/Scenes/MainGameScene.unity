@@ -4681,10 +4681,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectsToSpawnList:
   - gameObject: {fileID: 68592742271266757, guid: 053a6ad22be997d4382915d2df7a5107, type: 3}
-    spawnDelay: 6
+    spawnDelay: 4
     currentTimer: 0
   - gameObject: {fileID: 6013622871501398939, guid: fc84eb267efaac74dbaef45d2b738f96, type: 3}
-    spawnDelay: 6
+    spawnDelay: 3
     currentTimer: 0
   - gameObject: {fileID: 4051566189654469659, guid: d832bba0f057840499e2030bc4eead71, type: 3}
     spawnDelay: 5
