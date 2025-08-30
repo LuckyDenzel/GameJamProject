@@ -213,7 +213,7 @@ MonoBehaviour:
   explosionParticleSystem: {fileID: 5956350723273778507}
   explosiveModelTransform: {fileID: 6579275757932325594}
   startingExplosionRadius: 5
-  startingExplosionDamage: 30
+  startingExplosionDamage: 40
   startingExplosionDownwardForce: 40
   explosionLifetimeDuration: 7
   explosionAudioClip: {fileID: 8300000, guid: c0350bed916db8a48bb1dd14975c2177, type: 3}

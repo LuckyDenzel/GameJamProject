@@ -25,7 +25,5 @@ public class EnemyHealthUI : MonoBehaviour {
 
         enemyHealthImage.gameObject.SetActive(true);
         enemyHealthBackgroundImage.gameObject.SetActive(true);
-
-        Debug.Log(e.newHealth + enemyHealthImage.fillAmount);
     }
 }
