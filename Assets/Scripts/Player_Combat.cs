@@ -3,21 +3,32 @@ using UnityEngine;
 public class Player_Combat : MonoBehaviour {
 
 
+    private const string SWORD_ATTACK_ANIMATION_TRIGGER = "Attack";
+
+    [Header("References")]
     [SerializeField] private Player_Movement playerMovement;
 
+    [Header("Values")]
     [SerializeField] private int meleeAttackDamage = 60;
     [SerializeField] private float meleeAttackRange = 3f;
     [SerializeField] private float meleeAttackStrength = 2f;
+    [SerializeField] private float meleeAttackCooldown = 1f;
 
     [SerializeField] private LayerMask enemyLayerMask;
 
+    [Header("Animation")]
+    [SerializeField] private Animator swordAnimator;
+
+    [Header("Audio")]
     [SerializeField] private AudioClip meleeAttackAudioClip;
     [SerializeField] private AudioSource audioSource;
 
     private float closestEnemyCheckTimer;
-    private float closestEnemyCheckTimerDuration = 0.2f;
+    private float closestEnemyCheckTimerDuration = 0f;
 
     private int enemiesKilled;
+
+    private bool canAttack = true;
 
     private Collider2D currentClosestEnemy;
     private Collider2D[] currentClosestEnemiesArray;
@@ -37,7 +48,8 @@ public class Player_Combat : MonoBehaviour {
         }
 
         // Listen to melee input
-        if (Input.GetKeyDown(KeyCode.Mouse0)) {
+        if (Input.GetKeyDown(KeyCode.Mouse0) && canAttack) {
+            canAttack = false;
 
             if (currentClosestEnemy != null) {
                 currentClosestEnemy.TryGetComponent<Enemy_Health>(out Enemy_Health enemyHealth);
@@ -63,8 +75,18 @@ public class Player_Combat : MonoBehaviour {
                 audioSource.clip = meleeAttackAudioClip;
             }
 
+            if (swordAnimator != null) {
+                swordAnimator.SetTrigger(SWORD_ATTACK_ANIMATION_TRIGGER);
+            }
+
             audioSource.Play();
+
+            Invoke(nameof(ResetMeleeAttack), meleeAttackCooldown);
         }
+    }
+
+    private void ResetMeleeAttack() {
+        canAttack = true;
     }
 
     private void PerformMeleeAttack(Enemy_Health enemyToAttack) {

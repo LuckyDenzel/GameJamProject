@@ -29,6 +29,8 @@ public class Player_Movement : MonoBehaviour {
 
     // Other
     private bool isFacingRight;
+    private bool previousIsFacingRight;
+
     private bool isMoving;
 
     private bool grounded;
@@ -41,6 +43,8 @@ public class Player_Movement : MonoBehaviour {
     private void Start() {
         moveSpeed = PlayerPrefs.GetFloat(PLAYER_MOVE_SPEED_PLAYER_PREFS, moveSpeed);
         stunnedDuration = PlayerPrefs.GetFloat(PLAYER_STUNNED_PLAYER_PREFS, stunnedDuration);
+
+        previousIsFacingRight = isFacingRight;
     }
 
     private void Update() {
@@ -103,6 +107,12 @@ public class Player_Movement : MonoBehaviour {
             isFacingRight = false;
             isMoving = true;
 
+            // Flip only when the direction changes
+            if (isFacingRight != previousIsFacingRight) {
+                TurnAround();
+                previousIsFacingRight = isFacingRight;
+            }
+
             return;
         }
         if (Input.GetKey(KeyCode.D)) {
@@ -112,10 +122,22 @@ public class Player_Movement : MonoBehaviour {
             isFacingRight = true;
             isMoving = true;
 
+            // Flip only when the direction changes
+            if (isFacingRight != previousIsFacingRight) {
+                TurnAround();
+                previousIsFacingRight = isFacingRight;
+            }
+
             return;
         }
 
         isMoving = false;
+    }
+
+    private void TurnAround() {
+        Vector3 scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
     }
 
     private void Jump() {
