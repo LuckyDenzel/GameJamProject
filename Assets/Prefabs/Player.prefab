@@ -366,7 +366,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerMovement: {fileID: 5888247017837561163}
   meleeAttackDamage: 60
-  meleeAttackRange: 3
+  meleeAttackRange: 3.5
   meleeAttackStrength: 20
   meleeAttackCooldown: 0.8
   enemyLayerMask:

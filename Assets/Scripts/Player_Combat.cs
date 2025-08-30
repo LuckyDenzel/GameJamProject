@@ -24,7 +24,7 @@ public class Player_Combat : MonoBehaviour {
     [SerializeField] private AudioSource audioSource;
 
     private float closestEnemyCheckTimer;
-    private float closestEnemyCheckTimerDuration = 0f;
+    private float closestEnemyCheckTimerDuration = 0.1f;
 
     private int enemiesKilled;
 
@@ -53,12 +53,13 @@ public class Player_Combat : MonoBehaviour {
 
             if (currentClosestEnemy != null) {
                 currentClosestEnemy.TryGetComponent<Enemy_Health>(out Enemy_Health enemyHealth);
+                currentClosestEnemy.TryGetComponent<Enemy_Logic>(out Enemy_Logic enemyLogic);
 
                 // Calculate if the enemy will be dead or not from the attack
                 if (enemyHealth.CurrentHealth - meleeAttackDamage > 0) {
-                    PerformMeleeAttack(enemyHealth);
+                    PerformMeleeAttack(enemyLogic, enemyHealth);
                 } else {
-                    PerformMeleeAttack(enemyHealth);
+                    PerformMeleeAttack(enemyLogic, enemyHealth);
 
                     // Add +1 to the enemies killed variable
                     enemiesKilled++;
@@ -89,8 +90,9 @@ public class Player_Combat : MonoBehaviour {
         canAttack = true;
     }
 
-    private void PerformMeleeAttack(Enemy_Health enemyToAttack) {
+    private void PerformMeleeAttack(Enemy_Logic enemyLogic, Enemy_Health enemyToAttack) {
         enemyToAttack.ApplyDamage(meleeAttackDamage);
+        enemyLogic.StunEnemy();
 
         // Apply a knockback to the hit enemy
         Vector2 forceDirection = (transform.position - enemyToAttack.transform.position).normalized * meleeAttackStrength;

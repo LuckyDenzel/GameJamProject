@@ -17,6 +17,8 @@ public class Enemy_WeaponLogic : MonoBehaviour {
     }
 
     private void HandleShooting() {
+        if (enemyLogic.IsStunned()) return;
+
         if (IsPlayerInRange() && weaponReference.CanShoot) {
             weaponReference.Shoot();
         }

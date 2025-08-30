@@ -26,8 +26,13 @@ public class Enemy_Logic : MonoBehaviour {
     private float playerPositionCheckTimer = 0.2f;
     private float currentDamageAmount;
 
+    private float stunnedTimer;
+    private float stunnedDuration = 1f;
+
     private bool isFacingRight;
     private bool previousIsFacingRight;
+
+    private bool isStunned;
 
 
     private void Awake() {
@@ -52,18 +57,32 @@ public class Enemy_Logic : MonoBehaviour {
 
         // Update the target transform 5 times per second
         if (playerPositionCheckTimer <= 0f) {
-            playerPositionCheckTimer = 0.2f;
+            playerPositionCheckTimer = 0.5f;
 
             currentPlayerPosition = Player_Logic.Instance.transform.position;
+        }
+
+        if (isStunned) {
+            stunnedTimer -= Time.deltaTime;
+
+            if (stunnedTimer <= 0f) {
+                stunnedTimer = stunnedDuration;
+
+                isStunned = false;
+            }
         }
     }
 
     private void FixedUpdate() {
+        if (isStunned) return;
+
         MoveToPlayer();
         ClampVelocity();
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
+        if (isStunned) return;
+
         // Add a bounce back force to the player when the enemy hits the player
         if (collision.transform.CompareTag(Player_Logic.PLAYER_TAG)) {
             // Deal damage to the player
@@ -118,7 +137,13 @@ public class Enemy_Logic : MonoBehaviour {
         scale.x *= -1;
         transform.localScale = scale;
     }
-    
+
+    public void StunEnemy() {
+        isStunned = true;
+        stunnedTimer = stunnedDuration;
+    }
+
+
     private void DealDamageToPlayer(Player_Health playerHealthScript) {
         playerHealthScript.ApplyDamage(Mathf.RoundToInt(currentDamageAmount));
     }
@@ -137,5 +162,9 @@ public class Enemy_Logic : MonoBehaviour {
 
     public bool IsFacingRight() {
         return isFacingRight;
+    }
+
+    public bool IsStunned() {
+        return isStunned;
     }
 }
