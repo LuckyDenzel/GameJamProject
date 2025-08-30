@@ -31,6 +31,17 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    public event EventHandler<OnExitRunChangedEventArgs> OnExitRunChanged;
+    public class OnExitRunChangedEventArgs : EventArgs {
+        public float exitTimeDelay;
+        public bool hasStarted;
+
+        public OnExitRunChangedEventArgs(float exitTimeDelay, bool hasStarted) {
+            this.exitTimeDelay = exitTimeDelay;
+            this.hasStarted = hasStarted;
+        }
+    }
+
     [SerializeField] private LayerMask playerLayerMask;
 
     private int currentBiscuitsScore = 0;
@@ -62,6 +73,8 @@ public class GameManager : MonoBehaviour {
     private void Update() {
         if (Input.GetKeyDown(KeyCode.V)) {
             isExitingGame = true;
+
+            OnExitRunChanged?.Invoke(this, new OnExitRunChangedEventArgs(endRunExitTimerDelay, true));
         }
 
         if (isExitingGame) {
@@ -69,6 +82,7 @@ public class GameManager : MonoBehaviour {
                 isExitingGame = false;
                 Debug.Log("Canceled");
 
+                OnExitRunChanged?.Invoke(this, new OnExitRunChangedEventArgs(endRunExitTimerDelay, false));
                 return;
             }
 
