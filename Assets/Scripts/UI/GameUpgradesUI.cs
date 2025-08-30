@@ -33,12 +33,12 @@ public class GameUpgradesUI : MonoBehaviour {
 
     private void GameManager_OnBiscuitsAmountChanged(object sender, GameManager.OnTotalScoreChangedEventArgs e) {
         if (gameObject.activeInHierarchy) {
-            biscuitsAmountText.text = $"Biscuits: {e.newAmount}";
+            biscuitsAmountText.text = $": {e.newAmount}";
         }
     }
 
     public void Show() {
-        biscuitsAmountText.text = $"Biscuits: {GameManager.Instance.GetTotalBiscuitsScore()}";
+        biscuitsAmountText.text = $": {GameManager.Instance.GetTotalBiscuitsScore()}";
 
         gameObject.SetActive(true);
     }
